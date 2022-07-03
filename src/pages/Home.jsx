@@ -1,7 +1,7 @@
 import Navbar from '../components/NavBar';
 import Post from '../components/Post';
 
-function App() {
+function Home() {
   return (
     <>
       <Navbar />
@@ -12,4 +12,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

@@ -3,6 +3,7 @@ import AddPost from './pages/AddPost';
 import Explore from './pages/Explore';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Message from './pages/Message';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import SignupPhoto from './pages/SignupPhoto';
@@ -17,6 +18,7 @@ function App() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/explore" element={<Explore />} />
       <Route path="/add-post" element={<AddPost />} />
+      <Route path="/message" element={<Message />} />
     </Routes>
   );
 }

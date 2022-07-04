@@ -30,7 +30,7 @@ function HomeBar() {
               <FavoriteBorderIcon fontSize="medium" />
             </Badge>
           </IconButton>
-          <IconButton color="inherit">
+          <IconButton color="inherit" onClick={() => navigate('/message')}>
             <Badge badgeContent={1} color="error">
               <ChatIcon fontSize="medium" />
             </Badge>

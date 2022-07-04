@@ -33,18 +33,18 @@ function Navbar() {
             <HomeIcon fontSize="large" />
           </IconButton>
           <IconButton
-            onClick={() => navigate('/add')}
-            color="inherit"
-            sx={{ flexGrow: 1, padding: 0 }}
-          >
-            <AddCircleIcon fontSize="large" />
-          </IconButton>
-          <IconButton
             onClick={() => navigate('/explore')}
             color="inherit"
             sx={{ flexGrow: 1, padding: 0 }}
           >
             <SearchIcon fontSize="large" />
+          </IconButton>
+          <IconButton
+            onClick={() => navigate('/add-post')}
+            color="inherit"
+            sx={{ flexGrow: 1, padding: 0 }}
+          >
+            <AddCircleIcon fontSize="large" />
           </IconButton>
           <IconButton
             onClick={() => navigate('/profile')}

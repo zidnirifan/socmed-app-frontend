@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import AddPost from './pages/AddPost';
 import Explore from './pages/Explore';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -15,6 +16,7 @@ function App() {
       <Route path="/signup-photo" element={<SignupPhoto />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/explore" element={<Explore />} />
+      <Route path="/add-post" element={<AddPost />} />
     </Routes>
   );
 }

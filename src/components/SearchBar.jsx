@@ -3,6 +3,16 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+import { Box } from '@mui/system';
+import {
+  Avatar,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+} from '@mui/material';
+import { useState } from 'react';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -38,6 +48,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchBar() {
+  const [displayResult, setDisplayResult] = useState('none');
+
   return (
     <AppBar position="sticky">
       <Toolbar variant="dense">
@@ -48,7 +60,42 @@ export default function SearchBar() {
           <StyledInputBase
             placeholder="Search…"
             inputProps={{ 'aria-label': 'search' }}
+            onFocus={() => setDisplayResult('block')}
+            onBlur={() => setDisplayResult('none')}
           />
+          <Box
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              background: 'white',
+              display: displayResult,
+            }}
+          >
+            <List>
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemAvatar>
+                    <Avatar
+                      aria-label="recipe"
+                      src="https://material-ui.com/static/images/avatar/2.jpg"
+                    />
+                  </ListItemAvatar>
+                  <ListItemText primary="zidni_rifan" sx={{ color: 'black' }} />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemAvatar>
+                    <Avatar aria-label="recipe" />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary="stranger_user"
+                    sx={{ color: 'black' }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </Box>
         </Search>
       </Toolbar>
     </AppBar>

@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import AddPost from './pages/AddPost';
+import Chat from './pages/Chat';
 import Explore from './pages/Explore';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -19,6 +20,7 @@ function App() {
       <Route path="/explore" element={<Explore />} />
       <Route path="/add-post" element={<AddPost />} />
       <Route path="/message" element={<Message />} />
+      <Route path="/message/chat" element={<Chat />} />
     </Routes>
   );
 }

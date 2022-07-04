@@ -6,8 +6,11 @@ import { Link } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
+  const navigate = useNavigate();
+
   return (
     <>
       <AppBar position="sticky">
@@ -16,6 +19,7 @@ function Navbar() {
             variant="h5"
             component="div"
             sx={{ flexGrow: 1, fontFamily: 'Satisfy', fontSize: '1.8rem' }}
+            onClick={() => navigate('/')}
           >
             Insapgan
           </Typography>

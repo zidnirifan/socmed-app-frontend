@@ -16,6 +16,7 @@ import CommentIcon from '@mui/icons-material/ModeCommentOutlined';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
 import SwipeableViews from 'react-swipeable-views';
 import BookmarkIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import { useNavigate } from 'react-router-dom';
 
 const images = [
   {
@@ -39,6 +40,8 @@ function Post() {
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = images.length;
 
+  const navigate = useNavigate();
+
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
@@ -59,6 +62,7 @@ function Post() {
         }
         title="zidni_rifan"
         sx={{ paddingTop: '10px', paddingBottom: '10px' }}
+        onClick={() => navigate('/profile')}
       />
       <SwipeableViews
         index={activeStep}

@@ -1,43 +1,15 @@
-import { AppBar, Badge, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, IconButton, Toolbar } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import HomeIcon from '@mui/icons-material/Home';
 import ProfileIcon from '@mui/icons-material/AccountCircleOutlined';
-import { Link } from 'react-router-dom';
-import AddCircleIcon from '@mui/icons-material/AddCircleOutline';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ChatIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { useNavigate } from 'react-router-dom';
+import AddCircleIcon from '@mui/icons-material/AddCircleOutline';
 
 function Navbar() {
   const navigate = useNavigate();
 
   return (
     <>
-      <AppBar position="sticky">
-        <Toolbar variant="dense">
-          <Typography
-            variant="h5"
-            component="div"
-            sx={{ flexGrow: 1, fontFamily: 'Satisfy', fontSize: '1.8rem' }}
-            onClick={() => navigate('/')}
-          >
-            Insapgan
-          </Typography>
-          <IconButton color="inherit">
-            <AddCircleIcon fontSize="medium" />
-          </IconButton>
-          <IconButton color="inherit">
-            <Badge badgeContent={7} color="error">
-              <FavoriteBorderIcon fontSize="medium" />
-            </Badge>
-          </IconButton>
-          <IconButton color="inherit">
-            <Badge badgeContent={1} color="error">
-              <ChatIcon fontSize="medium" />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
       <AppBar
         position="fixed"
         color="primary"
@@ -54,32 +26,28 @@ function Navbar() {
           variant="dense"
         >
           <IconButton
-            component={Link}
-            to="/"
+            onClick={() => navigate('/')}
             color="inherit"
             sx={{ flexGrow: 1, padding: 0 }}
           >
             <HomeIcon fontSize="large" />
           </IconButton>
           <IconButton
-            component={Link}
-            to="/add"
+            onClick={() => navigate('/add')}
             color="inherit"
             sx={{ flexGrow: 1, padding: 0 }}
           >
             <AddCircleIcon fontSize="large" />
           </IconButton>
           <IconButton
-            component={Link}
-            to="/search"
+            onClick={() => navigate('/explore')}
             color="inherit"
             sx={{ flexGrow: 1, padding: 0 }}
           >
             <SearchIcon fontSize="large" />
           </IconButton>
           <IconButton
-            component={Link}
-            to="/profile"
+            onClick={() => navigate('/profile')}
             color="inherit"
             sx={{ flexGrow: 1, padding: 0 }}
           >

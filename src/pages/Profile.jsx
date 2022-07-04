@@ -12,6 +12,7 @@ import Navbar from '../components/NavBar';
 import { grey } from '@mui/material/colors';
 import GridIcon from '@mui/icons-material/GridOnOutlined';
 import StandardImageList from '../components/PostList';
+import ProfileBar from '../components/ProfileBar';
 
 const itemData = [
   {
@@ -68,6 +69,7 @@ function Profile() {
   return (
     <>
       <Navbar />
+      <ProfileBar />
       <Paper
         elevation={0}
         sx={{

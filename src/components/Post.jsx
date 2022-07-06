@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  alpha,
   Avatar,
   Box,
   Card,
@@ -7,9 +8,12 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Collapse,
   IconButton,
   MobileStepper,
   Typography,
+  styled,
+  InputBase,
 } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHorizOutlined';
 import CommentIcon from '@mui/icons-material/ModeCommentOutlined';
@@ -17,6 +21,7 @@ import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
 import SwipeableViews from 'react-swipeable-views';
 import BookmarkIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import { useNavigate } from 'react-router-dom';
+import SendIcon from '@mui/icons-material/Send';
 
 const images = [
   {
@@ -36,7 +41,32 @@ const images = [
   },
 ];
 
+const ChatInput = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: 20,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  marginRight: 0,
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: 10,
+    transition: theme.transitions.create('width'),
+  },
+  width: '100%',
+  fontSize: 14,
+}));
+
 function Post() {
+  const [displayMore, setDisplayMore] = useState('inline');
+
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = images.length;
 
@@ -46,8 +76,15 @@ function Post() {
     setActiveStep(step);
   };
 
+  const [expanded, setExpanded] = useState(false);
+
+  const handleExpandClick = () => {
+    setDisplayMore('none');
+    setExpanded(true);
+  };
+
   return (
-    <Card sx={{ maxWidth: 600 }}>
+    <Card sx={{ maxWidth: 600, boxShadow: 'none' }}>
       <CardHeader
         avatar={
           <Avatar
@@ -94,23 +131,87 @@ function Post() {
           steps={maxSteps}
           position="static"
           activeStep={activeStep}
-          sx={{ justifyContent: 'center', flexBasis: 0, flexGrow: 1 }}
+          sx={{
+            justifyContent: 'center',
+            flexBasis: 0,
+            flexGrow: 1,
+            padding: 0,
+          }}
         />
         <IconButton
           aria-label="comment"
-          sx={{ flexBasis: 0, flexGrow: 1, justifyContent: 'flex-end' }}
+          sx={{
+            flexBasis: 0,
+            flexGrow: 1,
+            justifyContent: 'flex-end',
+            padding: 0,
+          }}
         >
           <BookmarkIcon />
         </IconButton>
       </CardActions>
-      <CardContent sx={{ paddingTop: 0, paddingBottom: 0 }}>
+      <CardContent sx={{ paddingTop: 0, paddingBottom: '10px !important' }}>
+        <Typography variant="body2" fontWeight={500} sx={{ mb: 0.7 }}>
+          9.876 likes
+        </Typography>
         <Typography variant="body2" display="inline" fontWeight={500}>
           zidni_rifan<span>&nbsp;</span>
         </Typography>
-        <Typography variant="body2" display="inline" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+        <Typography
+          variant="body2"
+          display={displayMore}
+          onClick={handleExpandClick}
+        >
+          This impressive paella is a perfect party dish and
+          <Typography
+            variant="body2"
+            onClick={handleExpandClick}
+            aria-label="show more"
+            display={displayMore}
+            color="text.secondary"
+          >
+            ... more
+          </Typography>
+        </Typography>
+        <Collapse
+          in={expanded}
+          timeout="auto"
+          unmountOnExit
+          collapsedSize="10px"
+          display="inline"
+        >
+          <Typography variant="body2" display="inline">
+            This impressive paella is a perfect party dish and a fun meal to
+            cook together with your guests. Add 1 cup of frozen peas along with
+            the mussels, if you like.
+          </Typography>
+        </Collapse>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.7 }}>
+          View all 1.789 comments
+        </Typography>
+        <Box sx={{ display: 'flex', mt: 0.7 }}>
+          <IconButton sx={{ padding: 0, justifyContent: 'flex-end' }}>
+            <Avatar
+              src="https://material-ui.com/static/images/avatar/2.jpg"
+              sx={{ flexGrow: 1, height: 25, width: 25 }}
+            />
+          </IconButton>
+          <ChatInput sx={{ flexGrow: 13 }}>
+            <StyledInputBase
+              placeholder="Add a comment..."
+              inputProps={{ 'aria-label': 'search' }}
+              size="small"
+            />
+          </ChatInput>
+          <IconButton
+            color="inherit"
+            sx={{ flexGrow: 1, padding: 0, justifyContent: 'flex-end' }}
+          >
+            <SendIcon sx={{ width: 22, height: 22 }} />
+          </IconButton>
+        </Box>
+        <Typography variant="caption" color="text.secondary" sx={{ mt: 0.7 }}>
+          1 day ago
         </Typography>
       </CardContent>
     </Card>

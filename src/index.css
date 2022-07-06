@@ -8,3 +8,9 @@ body {
   height: 6px !important;
   margin: 0 1.7px !important;
 }
+
+.MuiCollapse-wrapperInner,
+.MuiCollapse-wrapper,
+.MuiCollapse-root {
+  display: inline !important;
+}

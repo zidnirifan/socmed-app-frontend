@@ -65,6 +65,7 @@ function ChatForm() {
             <StyledInputBase
               placeholder="Message..."
               inputProps={{ 'aria-label': 'search' }}
+              multiline={true}
             />
           </ChatInput>
           <IconButton

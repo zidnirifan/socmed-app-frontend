@@ -1,8 +1,19 @@
 import { Avatar, Button, Container, Typography } from '@mui/material';
+import InputBase from '@mui/material/InputBase';
 import Box from '@mui/material/Box';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { changeProfilePhoto } from '../services/api';
+import { useState } from 'react';
 
 export default function SignupPhoto() {
+  const navigate = useNavigate();
+  const [photoUrl, setPhotoUrl] = useState('');
+
+  const uploadPhoto = async (e) => {
+    const response = await changeProfilePhoto(e.target.files[0]);
+    setPhotoUrl(response.data.profilePhoto);
+  };
+
   return (
     <Container>
       <Box
@@ -26,17 +37,27 @@ export default function SignupPhoto() {
         >
           Insapgan
         </Typography>
-        <Avatar sx={{ width: 120, height: 120, marginBottom: 1 }} />
+        <label htmlFor="photo">
+          <Avatar
+            sx={{ width: 120, height: 120, marginBottom: 1 }}
+            src={photoUrl}
+          />
+        </label>
+        <InputBase
+          id="photo"
+          type="file"
+          accept="image/png, image/jpeg, image/webp"
+          sx={{ visibility: 'hidden', width: 0, height: 0 }}
+          onChange={uploadPhoto}
+        />
         <Typography variant="body1" sx={{ marginBottom: 2 }}>
           Change profile photo
         </Typography>
         <Button
-          component={Link}
-          to="/"
-          type="submit"
           fullWidth
           variant="contained"
           color="primary"
+          onClick={() => navigate('/')}
         >
           Skip
         </Button>

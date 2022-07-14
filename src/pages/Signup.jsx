@@ -98,12 +98,10 @@ export default function Signup() {
     const response = await registerUser(user);
 
     if (response.status === 'success') {
-      const responseLogin = await loginUser({
+      await loginUser({
         username: user.username,
         password: user.password,
       });
-      localStorage.setItem('accessToken', responseLogin.data.accessToken);
-      localStorage.setItem('refreshToken', responseLogin.data.refreshToken);
       return navigate('/signup-photo');
     }
     if (

@@ -88,7 +88,7 @@ function Post({ postData }) {
         }
         title={user.username}
         sx={{ paddingTop: '10px', paddingBottom: '10px' }}
-        onClick={() => navigate('/profile')}
+        onClick={() => navigate(`/profile/${user.id}`)}
       />
       <SwipeableViews
         index={activeStep}

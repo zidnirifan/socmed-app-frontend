@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackIosNew';
 import MoreHorizIcon from '@mui/icons-material/MoreHorizOutlined';
 
-function ProfileBar() {
+function ProfileBar({ username }) {
   const navigate = useNavigate();
 
   return (
@@ -21,7 +21,7 @@ function ProfileBar() {
             variant="subtitle1"
             sx={{ flexGrow: 2, textAlign: 'center', fontSize: 18 }}
           >
-            zidni_rifan
+            {username}
           </Typography>
           <IconButton
             color="inherit"

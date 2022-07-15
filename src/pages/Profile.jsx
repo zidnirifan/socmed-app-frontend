@@ -11,65 +11,44 @@ import { Box, Container } from '@mui/system';
 import Navbar from '../components/NavBar';
 import { grey } from '@mui/material/colors';
 import GridIcon from '@mui/icons-material/GridOnOutlined';
-import StandardImageList from '../components/PostList';
+import ThumbnailList from '../components/ThumbnailList';
 import ProfileBar from '../components/ProfileBar';
-
-const itemData = [
-  {
-    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-    title: 'Breakfast',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-    title: 'Burger',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-    title: 'Camera',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-    title: 'Coffee',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-    title: 'Hats',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-    title: 'Honey',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-    title: 'Basketball',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-    title: 'Fern',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-    title: 'Mushrooms',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-    title: 'Tomato basil',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-    title: 'Sea star',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-    title: 'Bike',
-  },
-];
+import { useParams } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import {
+  getProfile as getProfileApi,
+  followUser as followUserApi,
+} from '../services/api';
 
 function Profile() {
+  const { userId } = useParams();
+
+  const [user, setUser] = useState({});
+  const [isFollowed, setIsFollowed] = useState(false);
+  const [followers, setFollowers] = useState(0);
+
+  const getProfile = useCallback(async () => {
+    const userData = await getProfileApi(userId);
+
+    setUser(userData.data.userProfile);
+  }, [userId]);
+
+  const followUser = async () => {
+    await followUserApi(userId);
+    setFollowers(isFollowed ? followers - 1 : followers + 1);
+    setIsFollowed(!isFollowed);
+  };
+
+  useEffect(() => {
+    getProfile();
+    setIsFollowed(user.isFollowed);
+    setFollowers(user.followersCount);
+  }, [getProfile, setIsFollowed, user.isFollowed, user.followersCount]);
+
   return (
     <>
       <Navbar />
-      <ProfileBar />
+      <ProfileBar username={user.username} />
       <Paper
         elevation={0}
         sx={{
@@ -83,8 +62,8 @@ function Profile() {
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Avatar
-              aria-label="recipe"
               sx={{ width: 90, height: 90, margin: 'auto' }}
+              src={user.profilePhoto}
             />
           </Grid>
           <Grid item xs={8} container>
@@ -94,7 +73,7 @@ function Profile() {
                 textAlign="center"
                 sx={{ fontWeight: 500, lineHeight: 1 }}
               >
-                99
+                {user.postsCount}
               </Typography>
               <Typography component="p" variant="caption" textAlign="center">
                 Posts
@@ -106,7 +85,7 @@ function Profile() {
                 textAlign="center"
                 sx={{ fontWeight: 500, lineHeight: 1 }}
               >
-                990K
+                {followers}
               </Typography>
               <Typography component="p" variant="caption" textAlign="center">
                 Followers
@@ -118,7 +97,7 @@ function Profile() {
                 textAlign="center"
                 sx={{ fontWeight: 500, lineHeight: 1 }}
               >
-                99
+                {user.followingCount}
               </Typography>
               <Typography component="p" variant="caption" textAlign="center">
                 Following
@@ -128,13 +107,18 @@ function Profile() {
         </Grid>
       </Paper>
       <Container>
-        <Typography variant="subtitle2">Zidni Rifan Ifana</Typography>
+        <Typography variant="subtitle2">{user.fullName}</Typography>
         <Typography variant="subtitle2" color={grey[500]}>
-          Software Engineer
+          {user.bio}
         </Typography>
         <Box sx={{ marginTop: 2, padding: '0 10%' }}>
-          <Button variant="outlined" size="small" sx={{ width: '48%' }}>
-            Follow
+          <Button
+            variant={isFollowed ? 'outlined' : 'contained'}
+            size="small"
+            sx={{ width: '48%' }}
+            onClick={followUser}
+          >
+            {isFollowed ? 'Following' : 'Follow'}
           </Button>
           <Button
             variant="outlined"
@@ -152,7 +136,7 @@ function Profile() {
       >
         <Tab icon={<GridIcon />} />
       </Tabs>
-      <StandardImageList posts={itemData} />
+      <ThumbnailList posts={user.posts || []} />
     </>
   );
 }

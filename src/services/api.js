@@ -91,3 +91,42 @@ export const likePost = async (postId) => {
     return error.response.data;
   }
 };
+
+export const getProfile = async (userId) => {
+  try {
+    const ENDPOINT = `users/${userId}`;
+    const { data } = await axiosAuth({
+      method: 'get',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const followUser = async (userId) => {
+  try {
+    const ENDPOINT = `users/${userId}/follow`;
+    const { data } = await axiosAuth({
+      method: 'put',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const getPostById = async (postId) => {
+  try {
+    const ENDPOINT = `posts/id/${postId}`;
+    const { data } = await axiosAuth.get(`${URL_API}/${ENDPOINT}`);
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

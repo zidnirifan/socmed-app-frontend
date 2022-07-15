@@ -19,11 +19,8 @@ function HomeBar() {
           >
             Insapgan
           </Typography>
-          <IconButton color="inherit">
-            <AddCircleIcon
-              fontSize="medium"
-              onClick={() => navigate('/add-post')}
-            />
+          <IconButton color="inherit" onClick={() => navigate('/add-post')}>
+            <AddCircleIcon fontSize="medium" />
           </IconButton>
           <IconButton color="inherit">
             <Badge badgeContent={7} color="error">

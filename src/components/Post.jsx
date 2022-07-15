@@ -158,10 +158,10 @@ function Post({ postData }) {
           {caption.slice(0, 55)}
           {caption.length > 55 && (
             <Typography
+              component="span"
               variant="body2"
               onClick={handleExpandClick}
               aria-label="show more"
-              display={displayMore}
               color="text.secondary"
             >
               ... more

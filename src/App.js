@@ -6,6 +6,7 @@ import Explore from './pages/Explore';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Message from './pages/Message';
+import PostId from './pages/PostId';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import SignupPhoto from './pages/SignupPhoto';
@@ -27,11 +28,15 @@ function App() {
         path="/signup-photo"
         element={isLogin ? <SignupPhoto /> : <Login />}
       />
-      <Route path="/profile" element={isLogin ? <Profile /> : <Login />} />
+      <Route
+        path="/profile/:userId"
+        element={isLogin ? <Profile /> : <Login />}
+      />
       <Route path="/explore" element={isLogin ? <Explore /> : <Login />} />
       <Route path="/add-post" element={isLogin ? <AddPost /> : <Login />} />
       <Route path="/message" element={isLogin ? <Message /> : <Login />} />
       <Route path="/message/chat" element={isLogin ? <Chat /> : <Login />} />
+      <Route path="/post/:postId" element={isLogin ? <PostId /> : <Login />} />
     </Routes>
   );
 }

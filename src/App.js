@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AddPost from './pages/AddPost';
 import Chat from './pages/Chat';
@@ -8,19 +9,29 @@ import Message from './pages/Message';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import SignupPhoto from './pages/SignupPhoto';
+import { isTokenExist } from './services/token';
 
 function App() {
+  const [isLogin, setIsLogin] = useState(true);
+
+  useEffect(() => {
+    setIsLogin(isTokenExist());
+  }, []);
+
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={isLogin ? <Home /> : <Login />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/signup-photo" element={<SignupPhoto />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/explore" element={<Explore />} />
-      <Route path="/add-post" element={<AddPost />} />
-      <Route path="/message" element={<Message />} />
-      <Route path="/message/chat" element={<Chat />} />
+      <Route
+        path="/signup-photo"
+        element={isLogin ? <SignupPhoto /> : <Login />}
+      />
+      <Route path="/profile" element={isLogin ? <Profile /> : <Login />} />
+      <Route path="/explore" element={isLogin ? <Explore /> : <Login />} />
+      <Route path="/add-post" element={isLogin ? <AddPost /> : <Login />} />
+      <Route path="/message" element={isLogin ? <Message /> : <Login />} />
+      <Route path="/message/chat" element={isLogin ? <Chat /> : <Login />} />
     </Routes>
   );
 }

@@ -17,31 +17,15 @@ import {
 } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHorizOutlined';
 import CommentIcon from '@mui/icons-material/ModeCommentOutlined';
-import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import SwipeableViews from 'react-swipeable-views';
 import BookmarkIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import { useNavigate } from 'react-router-dom';
 import SendIcon from '@mui/icons-material/Send';
+import { likePost as likePostApi } from '../services/api';
 
-const images = [
-  {
-    label: 'San Francisco - Oakland Bay Bridge, United States',
-    imgPath:
-      'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-  },
-  {
-    label: 'Bird',
-    imgPath:
-      'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
-  },
-  {
-    label: 'Bali, Indonesia',
-    imgPath:
-      'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
-  },
-];
-
-const ChatInput = styled('div')(({ theme }) => ({
+const CommentInput = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: 20,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -64,11 +48,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   fontSize: 14,
 }));
 
-function Post() {
-  const [displayMore, setDisplayMore] = useState('inline');
+function Post({ postData }) {
+  const { id, user, caption, media, likesCount, createdAt, isLiked } = postData;
 
+  const [isLikedState, setIsLikedState] = useState(isLiked);
+  const [likesCountState, setLikesCountState] = useState(likesCount);
+  const [displayMore, setDisplayMore] = useState('inline');
+  const [expanded, setExpanded] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = images.length;
+  const maxSteps = media.length;
 
   const navigate = useNavigate();
 
@@ -76,7 +64,13 @@ function Post() {
     setActiveStep(step);
   };
 
-  const [expanded, setExpanded] = useState(false);
+  const likePost = async () => {
+    await likePostApi(id);
+    setLikesCountState(
+      isLikedState ? likesCountState - 1 : likesCountState + 1
+    );
+    setIsLikedState(!isLikedState);
+  };
 
   const handleExpandClick = () => {
     setDisplayMore('none');
@@ -86,18 +80,13 @@ function Post() {
   return (
     <Card sx={{ maxWidth: 600, boxShadow: 'none' }}>
       <CardHeader
-        avatar={
-          <Avatar
-            aria-label="recipe"
-            src="https://material-ui.com/static/images/avatar/2.jpg"
-          />
-        }
+        avatar={<Avatar src={user.profilePhoto} />}
         action={
           <IconButton aria-label="settings">
             <MoreHorizIcon />
           </IconButton>
         }
-        title="zidni_rifan"
+        title={user.username}
         sx={{ paddingTop: '10px', paddingBottom: '10px' }}
         onClick={() => navigate('/profile')}
       />
@@ -105,39 +94,42 @@ function Post() {
         index={activeStep}
         onChangeIndex={handleStepChange}
         enableMouseEvents
+        onDoubleClick={likePost}
       >
-        {images.map((step, index) => (
-          <div key={step.label}>
+        {media.map((step, index) => (
+          <div key={step}>
             {Math.abs(activeStep - index) <= 2 ? (
-              <CardMedia
-                component="img"
-                image={step.imgPath}
-                alt={step.label}
-              />
+              <CardMedia component="img" image={step} />
             ) : null}
           </div>
         ))}
       </SwipeableViews>
       <CardActions disableSpacing sx={{ paddingBottom: 0 }}>
         <Box sx={{ flexBasis: 0, flexGrow: 1 }}>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
+          <IconButton aria-label="add to favorites" onClick={likePost}>
+            {isLikedState ? (
+              <FavoriteIcon color="error" />
+            ) : (
+              <FavoriteBorderIcon />
+            )}
           </IconButton>
           <IconButton aria-label="comment">
             <CommentIcon />
           </IconButton>
         </Box>
-        <MobileStepper
-          steps={maxSteps}
-          position="static"
-          activeStep={activeStep}
-          sx={{
-            justifyContent: 'center',
-            flexBasis: 0,
-            flexGrow: 1,
-            padding: 0,
-          }}
-        />
+        {media.length > 1 && (
+          <MobileStepper
+            steps={maxSteps}
+            position="static"
+            activeStep={activeStep}
+            sx={{
+              justifyContent: 'center',
+              flexBasis: 0,
+              flexGrow: 1,
+              padding: 0,
+            }}
+          />
+        )}
         <IconButton
           aria-label="comment"
           sx={{
@@ -152,26 +144,29 @@ function Post() {
       </CardActions>
       <CardContent sx={{ paddingTop: 0, paddingBottom: '10px !important' }}>
         <Typography variant="body2" fontWeight={500} sx={{ mb: 0.7 }}>
-          9.876 likes
+          {likesCountState} likes
         </Typography>
         <Typography variant="body2" display="inline" fontWeight={500}>
-          zidni_rifan<span>&nbsp;</span>
+          {user.username}
+          <span>&nbsp;</span>
         </Typography>
         <Typography
           variant="body2"
           display={displayMore}
-          onClick={handleExpandClick}
+          onClick={caption.length > 55 ? handleExpandClick : () => {}}
         >
-          This impressive paella is a perfect party dish and
-          <Typography
-            variant="body2"
-            onClick={handleExpandClick}
-            aria-label="show more"
-            display={displayMore}
-            color="text.secondary"
-          >
-            ... more
-          </Typography>
+          {caption.slice(0, 55)}
+          {caption.length > 55 && (
+            <Typography
+              variant="body2"
+              onClick={handleExpandClick}
+              aria-label="show more"
+              display={displayMore}
+              color="text.secondary"
+            >
+              ... more
+            </Typography>
+          )}
         </Typography>
         <Collapse
           in={expanded}
@@ -181,9 +176,7 @@ function Post() {
           display="inline"
         >
           <Typography variant="body2" display="inline">
-            This impressive paella is a perfect party dish and a fun meal to
-            cook together with your guests. Add 1 cup of frozen peas along with
-            the mussels, if you like.
+            {caption}
           </Typography>
         </Collapse>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 0.7 }}>
@@ -196,13 +189,13 @@ function Post() {
               sx={{ flexGrow: 1, height: 25, width: 25 }}
             />
           </IconButton>
-          <ChatInput sx={{ flexGrow: 13 }}>
+          <CommentInput sx={{ flexGrow: 13 }}>
             <StyledInputBase
               placeholder="Add a comment..."
               inputProps={{ 'aria-label': 'search' }}
               size="small"
             />
-          </ChatInput>
+          </CommentInput>
           <IconButton
             color="inherit"
             sx={{ flexGrow: 1, padding: 0, justifyContent: 'flex-end' }}
@@ -211,7 +204,7 @@ function Post() {
           </IconButton>
         </Box>
         <Typography variant="caption" color="text.secondary" sx={{ mt: 0.7 }}>
-          1 day ago
+          {createdAt}
         </Typography>
       </CardContent>
     </Card>

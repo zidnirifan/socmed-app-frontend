@@ -77,3 +77,17 @@ export const getHomePosts = async () => {
     return error.response.data;
   }
 };
+
+export const likePost = async (postId) => {
+  try {
+    const ENDPOINT = `posts/${postId}/like`;
+    const { data } = await axiosAuth({
+      method: 'put',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

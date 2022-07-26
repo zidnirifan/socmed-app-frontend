@@ -153,10 +153,10 @@ function Post({ postData }) {
         <Typography
           variant="body2"
           display={displayMore}
-          onClick={caption.length > 55 ? handleExpandClick : () => {}}
+          onClick={caption?.length > 55 ? handleExpandClick : () => {}}
         >
-          {caption.slice(0, 55)}
-          {caption.length > 55 && (
+          {caption?.slice(0, 55)}
+          {caption?.length > 55 && (
             <Typography
               component="span"
               variant="body2"

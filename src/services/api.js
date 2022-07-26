@@ -130,3 +130,30 @@ export const getPostById = async (postId) => {
     return error.response.data;
   }
 };
+
+export const addPost = async ({ media, caption }) => {
+  try {
+    const ENDPOINT = 'posts';
+
+    const formData = new FormData();
+
+    for (const i of media) {
+      formData.append('media', i);
+    }
+
+    formData.append('caption', caption);
+
+    const { data } = await axiosAuth({
+      method: 'post',
+      url: `${URL_API}/${ENDPOINT}`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

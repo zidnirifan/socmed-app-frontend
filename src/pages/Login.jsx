@@ -3,7 +3,8 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../services/api';
+import { getProfile, loginUser } from '../services/api';
+import { setLocalUser } from '../services/token';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -54,6 +55,13 @@ export default function Login() {
     if (!user.username || !user.password) return;
     if (usernameCheck.invalid || passwordCheck.invalid) return;
     const { status, message } = await loginUser(user);
+
+    const userSave = await getProfile('');
+    const { username, profilePhoto } = userSave.data.userProfile;
+    setLocalUser({
+      username,
+      profilePhoto,
+    });
 
     if (status === 'success') {
       navigate('/');

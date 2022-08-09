@@ -168,3 +168,17 @@ export const getExplorePostsMedia = async () => {
     return error.response.data;
   }
 };
+
+export const searchUsers = async (text) => {
+  try {
+    const ENDPOINT = `users/search?text=${text}`;
+    const { data } = await axiosAuth({
+      method: 'get',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

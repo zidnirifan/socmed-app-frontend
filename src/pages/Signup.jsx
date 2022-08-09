@@ -113,7 +113,6 @@ export default function Signup() {
         message: 'username already exist',
       });
     }
-    console.log('fail', response);
   };
 
   return (

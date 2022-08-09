@@ -12,7 +12,6 @@ function PostId() {
 
   const getHomePostList = useCallback(async () => {
     const postData = await getPostById(postId);
-    console.log(postData);
 
     setPost(postData.data.post);
   }, [postId]);

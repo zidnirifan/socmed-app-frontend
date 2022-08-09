@@ -10,7 +10,6 @@ function Home() {
 
   const getHomePostList = useCallback(async () => {
     const posts = await getHomePosts();
-    console.log(posts);
 
     setPosts(posts.data.posts);
   }, []);

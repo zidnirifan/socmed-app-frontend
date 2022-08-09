@@ -9,7 +9,6 @@ function Explore() {
 
   const getHomePostList = useCallback(async () => {
     const posts = await getExplorePostsMedia();
-    console.log(posts);
 
     setPosts(posts.data.posts);
   }, []);

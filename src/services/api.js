@@ -69,7 +69,7 @@ export const changeProfilePhoto = async (photo) => {
 
 export const getHomePosts = async () => {
   try {
-    const ENDPOINT = 'posts/home';
+    const ENDPOINT = 'posts/following';
     const { data } = await axiosAuth.get(`${URL_API}/${ENDPOINT}`);
 
     return data;
@@ -94,7 +94,7 @@ export const likePost = async (postId) => {
 
 export const getProfile = async (userId) => {
   try {
-    const ENDPOINT = `users/${userId}`;
+    const ENDPOINT = `users/profile/${userId}`;
     const { data } = await axiosAuth({
       method: 'get',
       url: `${URL_API}/${ENDPOINT}`,
@@ -151,6 +151,17 @@ export const addPost = async ({ media, caption }) => {
       },
       data: formData,
     });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const getExplorePostsMedia = async () => {
+  try {
+    const ENDPOINT = 'posts/explore/media';
+    const { data } = await axiosAuth.get(`${URL_API}/${ENDPOINT}`);
 
     return data;
   } catch (error) {

@@ -6,6 +6,8 @@ import Explore from './pages/Explore';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Message from './pages/Message';
+import OwnProfile from './pages/OwnProfile';
+import Comments from './pages/Comments';
 import PostId from './pages/PostId';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
@@ -32,11 +34,16 @@ function App() {
         path="/profile/:userId"
         element={isLogin ? <Profile /> : <Login />}
       />
+      <Route path="/profile" element={isLogin ? <OwnProfile /> : <Login />} />
       <Route path="/explore" element={isLogin ? <Explore /> : <Login />} />
       <Route path="/add-post" element={isLogin ? <AddPost /> : <Login />} />
       <Route path="/message" element={isLogin ? <Message /> : <Login />} />
       <Route path="/message/chat" element={isLogin ? <Chat /> : <Login />} />
       <Route path="/post/:postId" element={isLogin ? <PostId /> : <Login />} />
+      <Route
+        path="/post/:postId/comments"
+        element={isLogin ? <Comments /> : <Login />}
+      />
     </Routes>
   );
 }

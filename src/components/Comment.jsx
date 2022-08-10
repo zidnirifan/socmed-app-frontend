@@ -18,6 +18,7 @@ export default function Comment({ comment, index }) {
       }
       sx={{ alignItems: 'flex-start' }}
       key={index}
+      className="comment-card"
     >
       <ListItemAvatar>
         <Avatar

@@ -15,10 +15,10 @@ body {
   display: inline !important;
 }
 
-.MuiListItemAvatar-root {
+.comment-card .MuiListItemAvatar-root {
   min-width: 40px !important;
 }
 
-.MuiListItemSecondaryAction-root {
+.comment-card .MuiListItemSecondaryAction-root {
   top: 20px !important;
 }

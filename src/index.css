@@ -14,3 +14,11 @@ body {
 .MuiCollapse-root {
   display: inline !important;
 }
+
+.MuiListItemAvatar-root {
+  min-width: 40px !important;
+}
+
+.MuiListItemSecondaryAction-root {
+  top: 20px !important;
+}

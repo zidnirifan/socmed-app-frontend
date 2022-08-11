@@ -182,3 +182,46 @@ export const searchUsers = async (text) => {
     return error.response.data;
   }
 };
+
+export const getCommentsByPostId = async (postId) => {
+  try {
+    const ENDPOINT = `posts/${postId}/comments`;
+    const { data } = await axiosAuth({
+      method: 'get',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const likeComment = async (postId, commentId) => {
+  try {
+    const ENDPOINT = `posts/${postId}/comments/${commentId}/like`;
+    const { data } = await axiosAuth({
+      method: 'put',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const addComment = async (postId, { content }) => {
+  try {
+    const ENDPOINT = `posts/${postId}/comments`;
+    const { data } = await axiosAuth({
+      method: 'post',
+      url: `${URL_API}/${ENDPOINT}`,
+      data: { content },
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

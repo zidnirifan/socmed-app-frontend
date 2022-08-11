@@ -9,8 +9,10 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import SendIcon from '@mui/icons-material/Send';
+import { useEffect, useState } from 'react';
+import { getLocalUser } from '../services/token';
 
-const ChatInput = styled('div')(({ theme }) => ({
+const InputContainer = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: 20,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -32,7 +34,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
 }));
 
-function CommentInput() {
+function CommentInput({ sendComment }) {
+  const [content, setContent] = useState('');
+  const [user, setUser] = useState({});
+
+  const addComment = async () => {
+    await sendComment(content);
+  };
+
+  const handleChangeInput = (e) => {
+    const { value } = e.target;
+    setContent(value);
+  };
+
+  useEffect(() => {
+    const userLocal = getLocalUser();
+    setUser(userLocal);
+  }, []);
+
   return (
     <>
       <AppBar
@@ -53,21 +72,20 @@ function CommentInput() {
           variant="dense"
         >
           <Box sx={{ flexGrow: 1 }}>
-            <Avatar
-              src="https://material-ui.com/static/images/avatar/2.jpg"
-              sx={{ height: 30, width: 30 }}
-            />
+            <Avatar src={user.profilePhoto} sx={{ height: 30, width: 30 }} />
           </Box>
-          <ChatInput sx={{ flexGrow: 13 }}>
+          <InputContainer sx={{ flexGrow: 13 }}>
             <StyledInputBase
               placeholder="Add a comment..."
               inputProps={{ 'aria-label': 'search' }}
               multiline={true}
+              onChange={handleChangeInput}
             />
-          </ChatInput>
+          </InputContainer>
           <IconButton
             color="inherit"
             sx={{ flexGrow: 1, padding: 0, justifyContent: 'flex-end' }}
+            onClick={addComment}
           >
             <SendIcon sx={{ width: 30, height: 30 }} />
           </IconButton>

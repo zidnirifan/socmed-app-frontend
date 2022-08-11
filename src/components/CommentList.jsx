@@ -4,12 +4,18 @@ import Comment from './Comment';
 export default function CommentList({ comments }) {
   return (
     <List>
-      {comments.map((e, i) => (
+      {comments.map((c, i) => (
         <>
-          <Comment comment={e} index={i} />
-          <List sx={{ marginLeft: 5 }}>
-            <Comment comment={e} index={i} />
-          </List>
+          <Comment comment={c} index={i} />
+          {c.replies.length > 0 ? (
+            <List sx={{ marginLeft: 5 }}>
+              {c.replies.map((r, i) => (
+                <Comment comment={r} index={i} />
+              ))}
+            </List>
+          ) : (
+            ''
+          )}
         </>
       ))}
     </List>

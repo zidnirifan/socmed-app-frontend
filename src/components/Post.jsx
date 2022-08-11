@@ -23,7 +23,10 @@ import SwipeableViews from 'react-swipeable-views';
 import BookmarkIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import { useNavigate } from 'react-router-dom';
 import SendIcon from '@mui/icons-material/Send';
-import { likePost as likePostApi } from '../services/api';
+import {
+  likePost as likePostApi,
+  addComment as addCommentApi,
+} from '../services/api';
 
 const CommentInput = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -49,10 +52,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function Post({ postData }) {
-  const { id, user, caption, media, likesCount, createdAt, isLiked } = postData;
+  const {
+    id,
+    user,
+    caption,
+    media,
+    likesCount,
+    createdAt,
+    isLiked,
+    commentsCount,
+  } = postData;
 
   const [isLikedState, setIsLikedState] = useState(isLiked);
   const [likesCountState, setLikesCountState] = useState(likesCount);
+  const [comment, setComment] = useState('');
   const [displayMore, setDisplayMore] = useState('inline');
   const [expanded, setExpanded] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
@@ -70,6 +83,16 @@ function Post({ postData }) {
       isLikedState ? likesCountState - 1 : likesCountState + 1
     );
     setIsLikedState(!isLikedState);
+  };
+
+  const addComment = async () => {
+    const { data } = await addCommentApi(id, { content: comment });
+
+    navigate(`/post/${id}/comments/#${data.commentId}`);
+  };
+
+  const writeComment = (e) => {
+    setComment(e.target.value);
   };
 
   const handleExpandClick = () => {
@@ -113,7 +136,10 @@ function Post({ postData }) {
               <FavoriteBorderIcon />
             )}
           </IconButton>
-          <IconButton aria-label="comment">
+          <IconButton
+            aria-label="comment"
+            onClick={() => navigate(`/post/${postData.id}/comments`)}
+          >
             <CommentIcon />
           </IconButton>
         </Box>
@@ -146,7 +172,11 @@ function Post({ postData }) {
         <Typography variant="body2" fontWeight={500} sx={{ mb: 0.7 }}>
           {likesCountState} likes
         </Typography>
-        <Typography variant="body2" display="inline" fontWeight={500}>
+        <Typography
+          variant="body2"
+          display={caption ? 'inline' : 'none'}
+          fontWeight={500}
+        >
           {user.username}
           <span>&nbsp;</span>
         </Typography>
@@ -179,8 +209,14 @@ function Post({ postData }) {
             {caption}
           </Typography>
         </Collapse>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.7 }}>
-          View all 1.789 comments
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ mt: 0.7 }}
+          display={commentsCount ? 'block' : 'none'}
+          onClick={() => navigate(`/post/${postData.id}/comments`)}
+        >
+          View all {commentsCount} comments
         </Typography>
         <Box sx={{ display: 'flex', mt: 0.7 }}>
           <IconButton sx={{ padding: 0, justifyContent: 'flex-end' }}>
@@ -194,11 +230,13 @@ function Post({ postData }) {
               placeholder="Add a comment..."
               inputProps={{ 'aria-label': 'search' }}
               size="small"
+              onChange={writeComment}
             />
           </CommentInput>
           <IconButton
             color="inherit"
             sx={{ flexGrow: 1, padding: 0, justifyContent: 'flex-end' }}
+            onClick={addComment}
           >
             <SendIcon sx={{ width: 22, height: 22 }} />
           </IconButton>

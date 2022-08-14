@@ -132,6 +132,7 @@ function CommentInput() {
               inputProps={{ 'aria-label': 'search' }}
               multiline={true}
               onChange={handleChangeInput}
+              id="comment-input"
             />
           </InputContainer>
           <IconButton

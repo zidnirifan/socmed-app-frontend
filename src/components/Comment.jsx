@@ -41,6 +41,7 @@ export default function Comment({ comment, index, parentComment }) {
         parentComment,
       })
     );
+    document.getElementById('comment-input').focus();
   };
 
   useEffect(() => {

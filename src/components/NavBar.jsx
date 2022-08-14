@@ -1,12 +1,29 @@
 import { AppBar, IconButton, Toolbar } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import HomeIcon from '@mui/icons-material/Home';
-import ProfileIcon from '@mui/icons-material/AccountCircleOutlined';
+import ProfileOutlineIcon from '@mui/icons-material/AccountCircleOutlined';
 import { useNavigate } from 'react-router-dom';
-import AddCircleIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import { useState } from 'react';
+import searchImg from '../icons/search-icon.svg';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ProfileIcon from '@mui/icons-material/AccountCircle';
 
 function Navbar() {
   const navigate = useNavigate();
+
+  const [active, setActive] = useState(
+    window.location.pathname.slice(1)
+      ? window.location.pathname.slice(1)
+      : 'home'
+  );
+
+  const handleClick = (e) => {
+    const { id } = e.currentTarget;
+    setActive(id);
+    navigate(id === 'home' ? '/' : `/${id}`);
+  };
 
   return (
     <>
@@ -26,32 +43,52 @@ function Navbar() {
           variant="dense"
         >
           <IconButton
-            onClick={() => navigate('/')}
+            id="home"
+            onClick={handleClick}
             color="inherit"
             sx={{ flexGrow: 1, padding: 0 }}
           >
-            <HomeIcon fontSize="large" />
+            {active === 'home' ? (
+              <HomeIcon fontSize="large" />
+            ) : (
+              <HomeOutlinedIcon fontSize="large" />
+            )}
           </IconButton>
           <IconButton
-            onClick={() => navigate('/explore')}
+            id="explore"
+            onClick={handleClick}
             color="inherit"
             sx={{ flexGrow: 1, padding: 0 }}
           >
-            <SearchIcon fontSize="large" />
+            {active === 'explore' ? (
+              <img src={searchImg} alt="search-icon" width="29px" />
+            ) : (
+              <SearchIcon fontSize="large" sx={{ fontWeight: 600 }} />
+            )}
           </IconButton>
           <IconButton
-            onClick={() => navigate('/add-post')}
+            id="add-post"
+            onClick={handleClick}
             color="inherit"
             sx={{ flexGrow: 1, padding: 0 }}
           >
-            <AddCircleIcon fontSize="large" />
+            {active === 'add-post' ? (
+              <AddCircleIcon fontSize="large" />
+            ) : (
+              <AddCircleOutlineIcon fontSize="large" />
+            )}
           </IconButton>
           <IconButton
-            onClick={() => navigate('/profile')}
+            id="profile"
+            onClick={handleClick}
             color="inherit"
             sx={{ flexGrow: 1, padding: 0 }}
           >
-            <ProfileIcon fontSize="large" />
+            {active === 'profile' ? (
+              <ProfileIcon fontSize="large" />
+            ) : (
+              <ProfileOutlineIcon fontSize="large" />
+            )}
           </IconButton>
         </Toolbar>
       </AppBar>

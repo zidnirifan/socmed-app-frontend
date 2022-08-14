@@ -225,3 +225,18 @@ export const addComment = async (postId, { content }) => {
     return error.response.data;
   }
 };
+
+export const addReply = async (postId, { content, replyTo, parentComment }) => {
+  try {
+    const ENDPOINT = `posts/${postId}/comments`;
+    const { data } = await axiosAuth({
+      method: 'post',
+      url: `${URL_API}/${ENDPOINT}`,
+      data: { content, replyTo, parentComment },
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

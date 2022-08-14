@@ -6,11 +6,22 @@ import {
   Toolbar,
   styled,
   Avatar,
+  Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import SendIcon from '@mui/icons-material/Send';
 import { useEffect, useState } from 'react';
 import { getLocalUser } from '../services/token';
+import {
+  getComments,
+  replyToSelector,
+  setReplyTo,
+} from '../redux/features/commentSlice';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addComment as addCommentApi, addReply } from '../services/api';
+import { grey } from '@mui/material/colors';
+import CloseIcon from '@mui/icons-material/Close';
 
 const InputContainer = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -34,12 +45,33 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
 }));
 
-function CommentInput({ sendComment }) {
+function CommentInput() {
+  const dispatch = useDispatch();
+  const replyTo = useSelector(replyToSelector);
+
+  const navigate = useNavigate();
+  const { postId } = useParams();
+
   const [content, setContent] = useState('');
   const [user, setUser] = useState({});
 
   const addComment = async () => {
-    await sendComment(content);
+    if (!replyTo.replyTo) {
+    }
+    const { data } = replyTo.replyTo
+      ? await addReply(postId, {
+          content,
+          parentComment: replyTo.parentComment,
+          replyTo: replyTo.replyTo,
+        })
+      : await addCommentApi(postId, { content });
+
+    navigate(`${window.location.pathname}#${data.commentId}`);
+    dispatch(getComments(postId));
+  };
+
+  const closeReply = () => {
+    dispatch(setReplyTo({}));
   };
 
   const handleChangeInput = (e) => {
@@ -54,6 +86,26 @@ function CommentInput({ sendComment }) {
 
   return (
     <>
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: 48,
+          backgroundColor: grey[300],
+          width: '100%',
+          display: replyTo.replyTo ? 'flex' : 'none',
+          padding: 1.5,
+        }}
+      >
+        <Typography
+          variant="body2"
+          component="h4"
+          color={grey[700]}
+          sx={{ flexGrow: 5 }}
+        >
+          Replying to {replyTo.username}
+        </Typography>
+        <CloseIcon sx={{ flexGrow: 1 }} onClick={closeReply} />
+      </Box>
       <AppBar
         position="fixed"
         color="primary"

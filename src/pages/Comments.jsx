@@ -1,42 +1,30 @@
 import { Box } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import CommentBar from '../components/CommentBar';
 import CommentInput from '../components/CommentInput';
 import CommentList from '../components/CommentList';
-import { getCommentsByPostId } from '../services/api';
-import { addComment as addCommentApi } from '../services/api';
+import { useSelector, useDispatch } from 'react-redux';
+import { getComments, commentSelector } from '../redux/features/commentSlice';
 
 const Comments = () => {
-  const navigate = useNavigate();
   const { postId } = useParams();
 
-  const [comments, setComments] = useState([]);
-
-  const getComments = useCallback(async () => {
-    const commentsData = await getCommentsByPostId(postId);
-
-    setComments(commentsData.data.comments);
-  }, [postId]);
-
-  const addComment = async (content) => {
-    const { data } = await addCommentApi(postId, { content });
-
-    navigate(`${window.location.pathname}#${data.commentId}`);
-    const commentsData = await getCommentsByPostId(postId);
-
-    setComments(commentsData.data.comments);
-  };
+  const dispatch = useDispatch();
+  const comments = useSelector(commentSelector.selectAll);
 
   useEffect(() => {
-    getComments();
-  }, [getComments]);
+    dispatch(getComments(postId));
+  }, [dispatch, postId]);
 
   return (
     <>
       <CommentBar />
       <CommentList comments={comments} />
-      <CommentInput postId={postId} sendComment={addComment} />
+      <CommentInput
+        postId={postId}
+        sendComment={() => console.log('hiyayaya')}
+      />
       <Box height="50px" />
     </>
   );

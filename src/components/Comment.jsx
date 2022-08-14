@@ -12,10 +12,13 @@ import { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux/es/exports';
+import { setReplyTo } from '../redux/features/commentSlice';
 
-export default function Comment({ comment, index }) {
+export default function Comment({ comment, index, parentComment }) {
   const myRef = useRef();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [isLikedState, setIsLikedState] = useState(comment.isLiked);
   const [likesCountState, setLikesCountState] = useState(comment.likesCount);
@@ -30,9 +33,22 @@ export default function Comment({ comment, index }) {
     setIsLikedState(!isLikedState);
   };
 
+  const setReply = () => {
+    dispatch(
+      setReplyTo({
+        username: comment.user.username,
+        replyTo: comment.id,
+        parentComment,
+      })
+    );
+  };
+
   useEffect(() => {
     if (comment.id === newCommentId) {
-      myRef.current.scrollIntoView();
+      myRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
     }
   });
 
@@ -73,13 +89,14 @@ export default function Comment({ comment, index }) {
           {comment.user.username}{' '}
           <Typography
             variant="body2"
+            component={'span'}
             display={comment.replyTo ? 'inline' : 'none'}
             color={lightBlue[600]}
             onClick={() => navigate(`/profile/${comment.replyTo?.user.id}`)}
           >
             @{comment.replyTo?.user.username}
           </Typography>
-          <Typography variant="body2" display="inline">
+          <Typography variant="body2" component={'span'} display="inline">
             {' '}
             {comment.content}
           </Typography>
@@ -99,6 +116,7 @@ export default function Comment({ comment, index }) {
         <Typography
           variant="caption"
           sx={{ marginRight: 3.5, fontWeight: 500, color: grey[600] }}
+          onClick={setReply}
         >
           Reply
         </Typography>

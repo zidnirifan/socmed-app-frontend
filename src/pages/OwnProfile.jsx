@@ -15,8 +15,11 @@ import ThumbnailList from '../components/ThumbnailList';
 import ProfileBar from '../components/ProfileBar';
 import { useCallback, useEffect, useState } from 'react';
 import { getProfile as getProfileApi } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 function OwnProfile() {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({});
 
   const getProfile = useCallback(async () => {
@@ -96,7 +99,12 @@ function OwnProfile() {
           {user.bio}
         </Typography>
         <Box sx={{ marginTop: 2, padding: '0 15%' }}>
-          <Button variant="outlined" size="small" sx={{ width: '100%' }}>
+          <Button
+            variant="outlined"
+            size="small"
+            sx={{ width: '100%' }}
+            onClick={() => navigate('/edit-profile')}
+          >
             Edit Profile
           </Button>
         </Box>

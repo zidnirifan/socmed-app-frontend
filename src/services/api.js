@@ -67,6 +67,26 @@ export const changeProfilePhoto = async (photo) => {
   }
 };
 
+export const editUser = async ({ username, fullName, bio }) => {
+  try {
+    const ENDPOINT = 'users';
+
+    const { data } = await axiosAuth({
+      method: 'put',
+      url: `${URL_API}/${ENDPOINT}`,
+      data: {
+        username,
+        fullName,
+        bio,
+      },
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
 export const getHomePosts = async () => {
   try {
     const ENDPOINT = 'posts/following';

@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import SignupPhoto from './pages/SignupPhoto';
 import { isTokenExist } from './services/token';
+import EditProfile from './pages/EditProfile';
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
@@ -43,6 +44,10 @@ function App() {
       <Route
         path="/post/:postId/comments"
         element={isLogin ? <Comments /> : <Login />}
+      />
+      <Route
+        path="/edit-profile"
+        element={isLogin ? <EditProfile /> : <Login />}
       />
     </Routes>
   );

@@ -99,11 +99,23 @@ function CommentInput() {
           variant="body2"
           component="h4"
           color={grey[700]}
-          sx={{ flexGrow: 5 }}
+          sx={{ flexGrow: 3 }}
         >
           Replying to {replyTo.username}
         </Typography>
-        <CloseIcon sx={{ flexGrow: 1 }} onClick={closeReply} />
+        <IconButton
+          sx={{
+            flexGrow: 1,
+            display: 'block',
+            textAlign: 'right',
+            padding: 0,
+            paddingRight: 2.5,
+            height: '24px',
+          }}
+          onClick={closeReply}
+        >
+          <CloseIcon />
+        </IconButton>
       </Box>
       <AppBar
         position="fixed"

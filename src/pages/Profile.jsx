@@ -19,6 +19,7 @@ import {
   getProfile as getProfileApi,
   followUser as followUserApi,
 } from '../services/api';
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 
 function Profile() {
   const { userId } = useParams();
@@ -136,7 +137,16 @@ function Profile() {
       >
         <Tab icon={<GridIcon />} />
       </Tabs>
-      <ThumbnailList posts={user.posts || []} />
+      {user.posts.length === 0 ? (
+        <Box sx={{ textAlign: 'center', marginTop: 5 }}>
+          <CameraAltOutlinedIcon sx={{ width: 70, height: 70 }} />
+          <Typography variant="h5" sx={{ fontWeight: 500 }}>
+            No posts yet
+          </Typography>
+        </Box>
+      ) : (
+        <ThumbnailList posts={user.posts || []} />
+      )}
     </>
   );
 }

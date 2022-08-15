@@ -27,9 +27,7 @@ const Comments = () => {
           <Typography variant="h5">No Comment</Typography>
         </Box>
       ) : (
-        <>
-          <CommentList comments={comments} />
-        </>
+        <CommentList comments={comments} />
       )}
       <CommentInput />
       <Box height="50px" />

@@ -65,6 +65,7 @@ export default function Login() {
 
     if (status === 'success') {
       navigate('/');
+      window.location.reload();
     }
 
     if (status === 'fail' && message === 'username not found') {

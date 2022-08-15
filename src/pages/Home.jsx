@@ -6,6 +6,7 @@ import HomeBar from '../components/HomeBar';
 import Navbar from '../components/NavBar';
 import Post from '../components/Post';
 import { getFollowingPosts, getSuggestedPosts } from '../services/api';
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 
 function Home() {
   const [followingPosts, setFollowingPosts] = useState([]);
@@ -43,9 +44,17 @@ function Home() {
       >
         Following Posts
       </Typography>
-      {followingPosts.map((post) => (
-        <Post postData={post} key={post.id} />
-      ))}
+      {followingPosts.length === 0 ? (
+        <Box sx={{ textAlign: 'center', marginTop: 2, marginBottom: 2 }}>
+          <CameraAltOutlinedIcon sx={{ width: 70, height: 70 }} />
+          <Typography variant="h5" sx={{ fontWeight: 500 }}>
+            No posts yet
+          </Typography>
+        </Box>
+      ) : (
+        followingPosts.map((post) => <Post postData={post} key={post.id} />)
+      )}
+
       <Typography
         variant="h5"
         sx={{

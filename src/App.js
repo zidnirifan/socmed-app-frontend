@@ -14,6 +14,7 @@ import Signup from './pages/Signup';
 import SignupPhoto from './pages/SignupPhoto';
 import { isTokenExist } from './services/token';
 import EditProfile from './pages/EditProfile';
+import NotFound from './pages/NotFound';
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
@@ -49,6 +50,7 @@ function App() {
         path="/edit-profile"
         element={isLogin ? <EditProfile /> : <Login />}
       />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

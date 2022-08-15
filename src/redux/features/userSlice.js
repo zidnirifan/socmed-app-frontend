@@ -1,7 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getProfile as getProfileApi } from '../../services/api';
 
-const initialState = { user: '' };
+const initialState = {
+  user: '',
+  usernameCheck: {
+    invalid: false,
+    message: '',
+  },
+};
 
 export const getUser = createAsyncThunk('user/getUser', async () => {
   const { data } = await getProfileApi('');
@@ -16,6 +22,9 @@ export const userSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    setUsernameCheck: (state, action) => {
+      state.usernameCheck = action.payload;
+    },
   },
   extraReducers(builder) {
     builder.addCase(getUser.fulfilled, (state, action) => {
@@ -24,7 +33,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setUsernameCheck } = userSlice.actions;
 
 export const userSelector = (state) => state.user;
 

@@ -1,11 +1,12 @@
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
-import { useSelector } from 'react-redux';
-import { userSelector } from '../redux/features/userSlice';
 import { editUser as editUserApi } from '../services/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUsernameCheck, userSelector } from '../redux/features/userSlice';
 
 export default function EditProfileBar() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { user } = useSelector(userSelector);
@@ -13,6 +14,18 @@ export default function EditProfileBar() {
   const editUser = async () => {
     const response = await editUserApi(user);
     if (response.status === 'success') navigate('/profile');
+
+    if (
+      response.status === 'fail' &&
+      response.message === 'username already exist'
+    ) {
+      return dispatch(
+        setUsernameCheck({
+          invalid: true,
+          message: 'username already exist',
+        })
+      );
+    }
   };
 
   return (

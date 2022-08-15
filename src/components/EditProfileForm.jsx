@@ -3,16 +3,17 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, setUser, userSelector } from '../redux/features/userSlice';
+import {
+  getUser,
+  setUser,
+  setUsernameCheck,
+  userSelector,
+} from '../redux/features/userSlice';
 
 export default function EditProfileForm() {
   const dispatch = useDispatch();
-  const { user } = useSelector(userSelector);
+  const { user, usernameCheck } = useSelector(userSelector);
 
-  const [usernameCheck, setUsernameCheck] = useState({
-    invalid: false,
-    message: '',
-  });
   const [fullNameCheck, setFullNameCheck] = useState({
     invalid: false,
     message: '',
@@ -21,17 +22,21 @@ export default function EditProfileForm() {
   const validateUsername = (e) => {
     const { value } = e.target;
     if (value.length < 5) {
-      setUsernameCheck({
-        invalid: true,
-        message: 'username must be at least 5 character',
-      });
+      dispatch(
+        setUsernameCheck({
+          invalid: true,
+          message: 'username must be at least 5 character',
+        })
+      );
     } else if (!value.match(/^[\w]+$/)) {
-      setUsernameCheck({
-        invalid: true,
-        message: 'username contain restricted character',
-      });
+      dispatch(
+        setUsernameCheck({
+          invalid: true,
+          message: 'username contain restricted character',
+        })
+      );
     } else {
-      setUsernameCheck({ invalid: false, message: '' });
+      dispatch(setUsernameCheck({ invalid: false, message: '' }));
     }
   };
   const validateFullName = (e) => {

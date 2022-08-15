@@ -92,9 +92,20 @@ export const editUser = async ({ username, fullName, bio }) => {
   }
 };
 
-export const getHomePosts = async () => {
+export const getFollowingPosts = async () => {
   try {
     const ENDPOINT = 'posts/following';
+    const { data } = await axiosAuth.get(`${URL_API}/${ENDPOINT}`);
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const getSuggestedPosts = async () => {
+  try {
+    const ENDPOINT = 'posts/explore';
     const { data } = await axiosAuth.get(`${URL_API}/${ENDPOINT}`);
 
     return data;

@@ -41,12 +41,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchBar() {
   const [displayResult, setDisplayResult] = useState('none');
+  const [text, setText] = useState('');
 
   const [users, setUsers] = useState([]);
 
   const search = async (e) => {
+    setText(e.target.value);
     if (e.target.value.length >= 1) {
-      const response = await searchUsers(e.target.value);
+      const response = await searchUsers(text);
       setUsers(response.data.users);
     }
   };
@@ -63,9 +65,14 @@ export default function SearchBar() {
             inputProps={{ 'aria-label': 'search' }}
             onFocus={() => setDisplayResult('block')}
             onBlur={(e) => setTimeout(() => setDisplayResult('none'), 1)}
+            value={text}
             onChange={search}
           />
-          <UserList users={users} display={displayResult} />
+          {text.length === 0 ? (
+            <></>
+          ) : (
+            <UserList users={users} display={displayResult} />
+          )}
         </Search>
       </Toolbar>
     </AppBar>

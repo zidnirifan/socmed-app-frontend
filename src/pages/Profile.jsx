@@ -137,7 +137,7 @@ function Profile() {
       >
         <Tab icon={<GridIcon />} />
       </Tabs>
-      {user.posts.length === 0 ? (
+      {user.posts?.length === 0 ? (
         <Box sx={{ textAlign: 'center', marginTop: 5 }}>
           <CameraAltOutlinedIcon sx={{ width: 70, height: 70 }} />
           <Typography variant="h5" sx={{ fontWeight: 500 }}>

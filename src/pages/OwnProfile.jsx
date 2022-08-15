@@ -16,6 +16,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { getProfile as getProfileApi } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import OwnProfileBar from '../components/ownProfileBar';
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 
 function OwnProfile() {
   const navigate = useNavigate();
@@ -116,7 +117,16 @@ function OwnProfile() {
       >
         <Tab icon={<GridIcon />} />
       </Tabs>
-      <ThumbnailList posts={user.posts || []} />
+      {user.posts?.length === 0 ? (
+        <Box sx={{ textAlign: 'center', marginTop: 5 }}>
+          <CameraAltOutlinedIcon sx={{ width: 70, height: 70 }} />
+          <Typography variant="h5" sx={{ fontWeight: 500 }}>
+            No posts yet
+          </Typography>
+        </Box>
+      ) : (
+        <ThumbnailList posts={user.posts || []} />
+      )}
     </>
   );
 }

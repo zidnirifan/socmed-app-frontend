@@ -27,6 +27,7 @@ import {
   likePost as likePostApi,
   addComment as addCommentApi,
 } from '../services/api';
+import { getLocalUser } from '../services/token';
 
 const CommentInput = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -62,6 +63,8 @@ function Post({ postData }) {
     isLiked,
     commentsCount,
   } = postData;
+
+  const userLocal = getLocalUser();
 
   const [isLikedState, setIsLikedState] = useState(isLiked);
   const [likesCountState, setLikesCountState] = useState(likesCount);
@@ -221,7 +224,7 @@ function Post({ postData }) {
         <Box sx={{ display: 'flex', mt: 0.7 }}>
           <IconButton sx={{ padding: 0, justifyContent: 'flex-end' }}>
             <Avatar
-              src="https://material-ui.com/static/images/avatar/2.jpg"
+              src={userLocal.profilePhoto}
               sx={{ flexGrow: 1, height: 25, width: 25 }}
             />
           </IconButton>

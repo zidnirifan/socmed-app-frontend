@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography } from '@mui/material';
 function AddPostBar() {
   return (
     <>
-      <AppBar position="sticky">
+      <AppBar position="sticky" color="inherit">
         <Toolbar variant="dense">
           <Typography
             variant="subtitle1"

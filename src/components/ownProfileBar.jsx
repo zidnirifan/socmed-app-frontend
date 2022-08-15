@@ -32,7 +32,7 @@ export default function OwnProfileBar({ username }) {
 
   return (
     <>
-      <AppBar position="sticky">
+      <AppBar position="sticky" color="inherit">
         <Toolbar variant="dense">
           <Typography
             variant="subtitle1"

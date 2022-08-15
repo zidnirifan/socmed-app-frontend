@@ -8,7 +8,7 @@ function MessageBar() {
 
   return (
     <>
-      <AppBar position="sticky">
+      <AppBar position="sticky" color="inherit">
         <Toolbar variant="dense">
           <IconButton
             color="inherit"

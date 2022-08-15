@@ -1,5 +1,4 @@
 import {
-  alpha,
   AppBar,
   IconButton,
   InputBase,
@@ -26,9 +25,9 @@ import CloseIcon from '@mui/icons-material/Close';
 const InputContainer = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: 20,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: 'rgba(0, 0, 0, 0.1)',
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
   },
   marginLeft: 0,
   marginRight: 0,
@@ -108,7 +107,7 @@ function CommentInput() {
       </Box>
       <AppBar
         position="fixed"
-        color="primary"
+        color="inherit"
         sx={{
           top: 'auto',
           bottom: 0,

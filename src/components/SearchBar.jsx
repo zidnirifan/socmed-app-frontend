@@ -1,4 +1,4 @@
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
@@ -10,9 +10,9 @@ import { searchUsers } from '../services/api';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: 'rgba(0, 0, 0, 0.1)',
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
   },
   marginLeft: 0,
   width: '100%',
@@ -33,7 +33,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
   },
@@ -53,7 +52,7 @@ export default function SearchBar() {
   };
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" color="inherit">
       <Toolbar variant="dense">
         <Search>
           <SearchIconWrapper>

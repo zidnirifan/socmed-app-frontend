@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import { useState } from 'react';
-import searchImg from '../icons/search-icon.svg';
+import searchImg from '../icons/search-icon-black.svg';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ProfileIcon from '@mui/icons-material/AccountCircle';
 
@@ -29,7 +29,7 @@ function Navbar() {
     <>
       <AppBar
         position="fixed"
-        color="primary"
+        color="inherit"
         sx={{
           top: 'auto',
           bottom: 0,
@@ -61,7 +61,7 @@ function Navbar() {
             sx={{ flexGrow: 1, padding: 0 }}
           >
             {active === 'explore' ? (
-              <img src={searchImg} alt="search-icon" width="29px" />
+              <img src={searchImg} alt="search-icon" width="28px" />
             ) : (
               <SearchIcon fontSize="large" sx={{ fontWeight: 600 }} />
             )}

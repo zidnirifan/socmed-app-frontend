@@ -9,7 +9,7 @@ function HomeBar() {
 
   return (
     <>
-      <AppBar position="sticky">
+      <AppBar position="sticky" color="inherit">
         <Toolbar variant="dense">
           <Typography
             variant="h5"

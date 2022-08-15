@@ -21,10 +21,7 @@ const Comments = () => {
     <>
       <CommentBar />
       <CommentList comments={comments} />
-      <CommentInput
-        postId={postId}
-        sendComment={() => console.log('hiyayaya')}
-      />
+      <CommentInput />
       <Box height="50px" />
     </>
   );

@@ -1,6 +1,11 @@
 import axios from 'axios';
 import axiosAuth from './axiosAuth';
-import { setAccessToken, setRefreshToken } from './token';
+import {
+  getRefreshToken,
+  logoutLocal,
+  setAccessToken,
+  setRefreshToken,
+} from './token';
 
 const URL_API = process.env.REACT_APP_API_URL;
 
@@ -254,6 +259,25 @@ export const addReply = async (postId, { content, replyTo, parentComment }) => {
       url: `${URL_API}/${ENDPOINT}`,
       data: { content, replyTo, parentComment },
     });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const logoutApi = async () => {
+  try {
+    const refreshToken = getRefreshToken();
+
+    const ENDPOINT = 'auth';
+    const { data } = await axiosAuth({
+      method: 'delete',
+      url: `${URL_API}/${ENDPOINT}`,
+      data: { refreshToken },
+    });
+
+    logoutLocal();
 
     return data;
   } catch (error) {

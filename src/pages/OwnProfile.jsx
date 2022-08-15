@@ -12,10 +12,10 @@ import Navbar from '../components/NavBar';
 import { grey } from '@mui/material/colors';
 import GridIcon from '@mui/icons-material/GridOnOutlined';
 import ThumbnailList from '../components/ThumbnailList';
-import ProfileBar from '../components/ProfileBar';
 import { useCallback, useEffect, useState } from 'react';
 import { getProfile as getProfileApi } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import OwnProfileBar from '../components/ownProfileBar';
 
 function OwnProfile() {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ function OwnProfile() {
   return (
     <>
       <Navbar />
-      <ProfileBar username={user.username} />
+      <OwnProfileBar username={user.username} />
       <Paper
         elevation={0}
         sx={{

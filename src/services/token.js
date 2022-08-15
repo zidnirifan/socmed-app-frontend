@@ -32,3 +32,9 @@ export const setLocalUser = (user) => {
 export const getLocalUser = () => {
   return JSON.parse(localStorage.getItem('user'));
 };
+
+export const logoutLocal = () => {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('user');
+};

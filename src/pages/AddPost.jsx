@@ -167,6 +167,7 @@ const AddPost = () => {
           Post
         </Button>
       </Box>
+      <Box height="50px" />
     </>
   );
 };

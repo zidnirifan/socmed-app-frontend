@@ -8,7 +8,7 @@ import { Box } from '@mui/system';
 import { grey } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
 
-export default function ChatList({ chatData }) {
+export default function MessageList({ chatData }) {
   const navigate = useNavigate();
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import ChatList from '../components/ChatList';
+import MessageList from '../components/MessageList';
 import MessageBar from '../components/MessageBar';
 
 const chatData = [
@@ -38,7 +38,7 @@ const chatData = [
 const Message = () => (
   <>
     <MessageBar />
-    <ChatList chatData={chatData} />
+    <MessageList chatData={chatData} />
   </>
 );
 

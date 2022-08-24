@@ -3,6 +3,7 @@ import CameraIcon from '@mui/icons-material/CameraAlt';
 import ImageIcon from '@mui/icons-material/Image';
 import { Box } from '@mui/system';
 import SendIcon from '@mui/icons-material/Send';
+import { useState } from 'react';
 
 const ChatInput = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -26,7 +27,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
 }));
 
-function ChatForm() {
+function ChatForm({ handleSend }) {
+  const [value, setValue] = useState('');
+
   return (
     <>
       <AppBar
@@ -59,11 +62,14 @@ function ChatForm() {
               placeholder="Message..."
               inputProps={{ 'aria-label': 'search' }}
               multiline={true}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
             />
           </ChatInput>
           <IconButton
             color="inherit"
             sx={{ flexGrow: 1, padding: 0, justifyContent: 'flex-end' }}
+            onClick={() => handleSend(value)}
           >
             <SendIcon sx={{ width: 30, height: 30 }} />
           </IconButton>

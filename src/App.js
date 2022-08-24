@@ -40,7 +40,10 @@ function App() {
       <Route path="/explore" element={isLogin ? <Explore /> : <Login />} />
       <Route path="/add-post" element={isLogin ? <AddPost /> : <Login />} />
       <Route path="/message" element={isLogin ? <Message /> : <Login />} />
-      <Route path="/message/chat" element={isLogin ? <Chat /> : <Login />} />
+      <Route
+        path="/message/:userId/chat"
+        element={isLogin ? <Chat /> : <Login />}
+      />
       <Route path="/post/:postId" element={isLogin ? <PostId /> : <Login />} />
       <Route
         path="/post/:postId/comments"

@@ -57,8 +57,9 @@ export default function Login() {
     const { status, message } = await loginUser(user);
 
     const userSave = await getProfile('');
-    const { username, profilePhoto } = userSave.data.userProfile;
+    const { id, username, profilePhoto } = userSave.data.userProfile;
     setLocalUser({
+      id,
       username,
       profilePhoto,
     });

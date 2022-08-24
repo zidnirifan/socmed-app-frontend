@@ -4,12 +4,14 @@ import MessageBar from '../components/MessageBar';
 
 const chatData = [
   {
-    fullName: 'Stranger User',
+    id: '62c8228a9bf4e43bb177eb8d',
+    fullName: 'Gedang',
     avatar: '',
     lastChat: "I'll be in your neighborhood doing errands this…",
     time: 'Saturday',
   },
   {
+    id: '62b55fa0f96df4d764f6722d',
     fullName: 'Maudy Ayunda',
     avatar: '',
     lastChat: "I'll be in your neighborhood doing errands this…",

@@ -19,7 +19,7 @@ export default function MessageList({ chatData }) {
             <ListItemAvatar onClick={() => navigate('/profile')}>
               <Avatar alt="Remy Sharp" src={e.avatar} />
             </ListItemAvatar>
-            <Box onClick={() => navigate('/message/chat')}>
+            <Box onClick={() => navigate(`/message/${e.id}/chat`)}>
               <Typography component="span" variant="subtitle1">
                 {e.fullName}
                 <Typography

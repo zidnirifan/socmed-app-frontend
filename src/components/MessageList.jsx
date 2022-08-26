@@ -13,31 +13,38 @@ export default function MessageList({ chatData }) {
 
   return (
     <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-      {chatData.map((e) => (
-        <>
+      {chatData.map((chat, i) => (
+        <Box key={i}>
           <ListItem alignItems="flex-start">
-            <ListItemAvatar onClick={() => navigate('/profile')}>
-              <Avatar alt="Remy Sharp" src={e.avatar} />
+            <ListItemAvatar onClick={() => navigate(`/profile/${chat.id}`)}>
+              <Avatar alt={chat.fullName} src={chat.profilePhoto} />
             </ListItemAvatar>
-            <Box onClick={() => navigate(`/message/${e.id}/chat`)}>
-              <Typography component="span" variant="subtitle1">
-                {e.fullName}
+            <Box
+              sx={{ width: '100%' }}
+              onClick={() => navigate(`/message/${chat.id}/chat`)}
+            >
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Typography
-                  component="span"
+                  variant="subtitle1"
+                  sx={{ flexGrow: 2, fontWeight: 500 }}
+                >
+                  {chat.fullName}
+                </Typography>
+                <Typography
                   variant="body2"
                   color={grey[600]}
-                  sx={{ float: 'right', mt: 0.5 }}
+                  sx={{ mt: 0.5, flexGrow: 1, textAlign: 'end' }}
                 >
-                  {e.time}
+                  {chat.createdAt}
                 </Typography>
-              </Typography>
-              <Typography variant="body2" color={grey[600]}>
-                {e.lastChat}
+              </Box>
+              <Typography variant="body2" color={grey[600]} display="block">
+                {chat.chat}
               </Typography>
             </Box>
           </ListItem>
           <Divider variant="inset" component="li" />
-        </>
+        </Box>
       ))}
     </List>
   );

@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import { grey, purple } from '@mui/material/colors';
 
-export default function ChatItem({ position, text }) {
-  const isLeft = position === 'left';
+export default function ChatItem({ side, chat, time }) {
+  const isLeft = side === 'left';
 
   return (
     <Box
@@ -20,7 +20,7 @@ export default function ChatItem({ position, text }) {
             color: isLeft ? 'black' : 'white',
           }}
         >
-          {text}
+          {chat}
         </Typography>
         <Typography
           variant="caption"
@@ -28,10 +28,10 @@ export default function ChatItem({ position, text }) {
             ml: isLeft ? 1 : 0,
             mr: isLeft ? 0 : 1,
             display: 'block',
-            textAlign: position,
+            textAlign: side,
           }}
         >
-          20.00
+          {time}
         </Typography>
       </Box>
     </Box>

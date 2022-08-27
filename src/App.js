@@ -15,13 +15,25 @@ import SignupPhoto from './pages/SignupPhoto';
 import { isTokenExist } from './services/token';
 import EditProfile from './pages/EditProfile';
 import NotFound from './pages/NotFound';
+import { io } from 'socket.io-client';
+import { setSocket } from './redux/features/chatSlice';
+import { useDispatch } from 'react-redux';
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
+  const socket = io(process.env.REACT_APP_API_URL);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setIsLogin(isTokenExist());
-  }, []);
+
+    if (isLogin) {
+      socket.on('connect', () => {
+        dispatch(setSocket(socket));
+      });
+    }
+  }, [dispatch, socket, isLogin]);
 
   return (
     <Routes>

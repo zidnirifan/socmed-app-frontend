@@ -1,70 +1,44 @@
 import { Box, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import ChatBar from '../components/ChatBar';
 import ChatForm from '../components/ChatForm';
 import ChatItem from '../components/ChatItem';
-import { io } from 'socket.io-client';
 import { useParams } from 'react-router-dom';
 import { getLocalUser } from '../services/token';
-import { getConversation as getConversationApi } from '../services/api';
-
-const socket = io(process.env.REACT_APP_API_URL);
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getChats,
+  socketSelector,
+  setChats,
+} from '../redux/features/chatSlice';
+import { joinChat, receiveChat } from '../services/socket';
 
 const Chat = () => {
   const bottomRef = useRef();
+  const dispatch = useDispatch();
 
-  const { userId: to } = useParams();
-  const { id: from } = getLocalUser();
+  const { userId: foreignUserId } = useParams();
+  const { id: ownUserId } = getLocalUser();
 
-  socket.on('connect', () => {
-    socket.emit('join-chat', from);
-  });
+  const { socket, chats } = useSelector(socketSelector);
 
-  const [chats, setChats] = useState([
-    { side: 'left', chat: '', time: '', date: '' },
-  ]);
+  if (socket) {
+    joinChat(socket, ownUserId);
 
-  const handleSend = (chat) => {
-    const time = new Date().toLocaleTimeString('id-ID', {
-      hour: '2-digit',
-      minute: '2-digit',
+    receiveChat(socket, async (chat) => {
+      await dispatch(setChats(chats.concat({ side: 'left', ...chat })));
+      bottomRef.current.scrollIntoView();
     });
-    const date = 'Today';
-
-    setChats(
-      chats.concat({
-        side: 'right',
-        chat,
-        time,
-        date,
-      })
-    );
-    socket.emit('send-chat', { chat, date, time, from, to });
-    bottomRef.current.scrollIntoView();
-  };
-
-  socket.on('receive-chat', ({ chat, from, time, date }) => {
-    if (from === to) {
-      setChats(chats.concat({ side: 'left', chat, time, date }));
-    }
-  });
-
-  const getConversation = useCallback(async () => {
-    const chats = await getConversationApi(to);
-
-    const chatsMapped = chats.data.chats.map((chat) => ({
-      ...chat,
-      side: chat.from !== to ? 'right' : 'left',
-    }));
-
-    setChats(chatsMapped);
-    bottomRef.current.scrollIntoView();
-  }, [to]);
+  }
 
   useEffect(() => {
-    getConversation();
-  }, [getConversation]);
+    async function fetchData() {
+      await dispatch(getChats(foreignUserId));
+      bottomRef.current.scrollIntoView();
+    }
+    fetchData();
+  }, [dispatch, ownUserId, foreignUserId]);
 
   let date = '';
 
@@ -102,7 +76,7 @@ const Chat = () => {
         })}
       </Box>
       <Box height="50px" ref={bottomRef} />
-      <ChatForm handleSend={handleSend} />
+      <ChatForm bottomRef={bottomRef} />
     </>
   );
 };

@@ -12,12 +12,14 @@ import PostId from './pages/PostId';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import SignupPhoto from './pages/SignupPhoto';
-import { isTokenExist } from './services/token';
+import { getLocalUser, isTokenExist } from './services/token';
 import EditProfile from './pages/EditProfile';
 import NotFound from './pages/NotFound';
 import { io } from 'socket.io-client';
 import { setSocket } from './redux/features/chatSlice';
 import { useDispatch } from 'react-redux';
+import { joinRoom, receiveChat } from './services/socket';
+import { requestPermission, showNotification } from './services/notification';
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
@@ -29,8 +31,23 @@ function App() {
     setIsLogin(isTokenExist());
 
     if (isLogin) {
+      requestPermission();
+      const { id } = getLocalUser();
+
+      joinRoom(socket, id);
+
       socket.on('connect', () => {
         dispatch(setSocket(socket));
+      });
+
+      receiveChat(socket, ({ chat, fromUsername, from }) => {
+        showNotification({
+          title: fromUsername,
+          options: {
+            body: chat,
+          },
+          url: `${window.location.origin}/message/${from}/chat`,
+        });
       });
     }
   }, [dispatch, socket, isLogin]);

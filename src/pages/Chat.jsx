@@ -12,7 +12,7 @@ import {
   socketSelector,
   setChats,
 } from '../redux/features/chatSlice';
-import { joinChat, receiveChat } from '../services/socket';
+import { receiveChat } from '../services/socket';
 
 const Chat = () => {
   const bottomRef = useRef();
@@ -24,11 +24,12 @@ const Chat = () => {
   const { socket, chats } = useSelector(socketSelector);
 
   if (socket) {
-    joinChat(socket, ownUserId);
-
     receiveChat(socket, async (chat) => {
-      await dispatch(setChats(chats.concat({ side: 'left', ...chat })));
-      bottomRef.current.scrollIntoView();
+      const pathUrl = window.location.pathname;
+      if (pathUrl === `/message/${chat.from}/chat`) {
+        await dispatch(setChats(chats.concat({ side: 'left', ...chat })));
+        bottomRef.current.scrollIntoView();
+      }
     });
   }
 

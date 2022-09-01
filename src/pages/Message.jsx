@@ -1,45 +1,37 @@
-import React from 'react';
-import ChatList from '../components/ChatList';
+import React, { useCallback, useEffect, useState } from 'react';
+import MessageList from '../components/MessageList';
 import MessageBar from '../components/MessageBar';
+import { getLatestChats as getLatestChatsApi } from '../services/api';
+import { getLocalUser } from '../services/token';
 
-const chatData = [
-  {
-    fullName: 'Stranger User',
-    avatar: '',
-    lastChat: "I'll be in your neighborhood doing errands this…",
-    time: 'Saturday',
-  },
-  {
-    fullName: 'Maudy Ayunda',
-    avatar: '',
-    lastChat: "I'll be in your neighborhood doing errands this…",
-    time: 'Saturday',
-  },
-  {
-    fullName: 'Steve Job',
-    avatar: '',
-    lastChat: "Wish I could come, but I'm out of town this…",
-    time: 'Saturday',
-  },
-  {
-    fullName: 'Elon Musk',
-    avatar: '',
-    lastChat: 'Do you have Paris recommendations? Have you ever…',
-    time: 'Saturday',
-  },
-  {
-    fullName: 'Anya Geraldine',
-    avatar: '',
-    lastChat: "I'll be in your neighborhood doing errands this…",
-    time: 'Saturday',
-  },
-];
+export default function Message() {
+  const { id: userId } = getLocalUser();
 
-const Message = () => (
-  <>
-    <MessageBar />
-    <ChatList chatData={chatData} />
-  </>
-);
+  const [chats, setChats] = useState([]);
 
-export default Message;
+  const getLatestChats = useCallback(async () => {
+    const chats = await getLatestChatsApi();
+
+    const chatsMapped = chats.data.chats.map((chat) => ({
+      chat: chat.chat,
+      id: chat.from.id !== userId ? chat.from.id : chat.to.id,
+      fullName: chat.from.id !== userId ? chat.from.fullName : chat.to.fullName,
+      profilePhoto:
+        chat.from.id !== userId ? chat.from.profilePhoto : chat.to.profilePhoto,
+      createdAt: new Date(chat.createdAt).toDateString(),
+    }));
+
+    setChats(chatsMapped);
+  }, [userId]);
+
+  useEffect(() => {
+    getLatestChats();
+  }, [getLatestChats]);
+
+  return (
+    <>
+      <MessageBar />
+      <MessageList chatData={chats} />
+    </>
+  );
+}

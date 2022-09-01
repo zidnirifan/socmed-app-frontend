@@ -3,8 +3,13 @@ import CameraIcon from '@mui/icons-material/CameraAlt';
 import ImageIcon from '@mui/icons-material/Image';
 import { Box } from '@mui/system';
 import SendIcon from '@mui/icons-material/Send';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { getLocalUser } from '../services/token';
+import { useParams } from 'react-router-dom';
+import { sendChat } from '../redux/features/chatSlice';
 
-const ChatInput = styled('div')(({ theme }) => ({
+const ChatInput = styled('div')(() => ({
   position: 'relative',
   borderRadius: 20,
   backgroundColor: 'rgba(0, 0, 0, 0.1)',
@@ -26,7 +31,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
 }));
 
-function ChatForm() {
+function ChatForm({ bottomRef }) {
+  const [value, setValue] = useState('');
+  const dispatch = useDispatch();
+
+  const { userId: foreignUserId } = useParams();
+  const { id: ownUserId } = getLocalUser();
+
+  const handleSend = async () => {
+    await dispatch(
+      sendChat({ chat: value, from: ownUserId, to: foreignUserId })
+    );
+    setValue('');
+    bottomRef.current.scrollIntoView();
+  };
+
   return (
     <>
       <AppBar
@@ -59,11 +78,14 @@ function ChatForm() {
               placeholder="Message..."
               inputProps={{ 'aria-label': 'search' }}
               multiline={true}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
             />
           </ChatInput>
           <IconButton
             color="inherit"
             sx={{ flexGrow: 1, padding: 0, justifyContent: 'flex-end' }}
+            onClick={handleSend}
           >
             <SendIcon sx={{ width: 30, height: 30 }} />
           </IconButton>

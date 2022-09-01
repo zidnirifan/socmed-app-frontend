@@ -295,3 +295,31 @@ export const logoutApi = async () => {
     return error.response.data;
   }
 };
+
+export const getLatestChats = async () => {
+  try {
+    const ENDPOINT = 'chats/latest';
+    const { data } = await axiosAuth({
+      method: 'get',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const getConversation = async (userId) => {
+  try {
+    const ENDPOINT = `chats/conversation/${userId}`;
+    const { data } = await axiosAuth({
+      method: 'get',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

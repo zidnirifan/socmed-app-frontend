@@ -54,7 +54,7 @@ const Chat = () => {
           return (
             <Box key={i}>
               {isDifferentDate && (
-                <Box sx={{ textAlign: 'center' }}>
+                <Box sx={{ textAlign: 'center', mb: 2 }}>
                   <Typography
                     color="white"
                     sx={{

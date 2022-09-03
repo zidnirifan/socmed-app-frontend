@@ -323,3 +323,17 @@ export const getConversation = async (userId) => {
     return error.response.data;
   }
 };
+
+export const readChat = async (userId) => {
+  try {
+    const ENDPOINT = `chats/conversation/${userId}/read`;
+    const { data } = await axiosAuth({
+      method: 'put',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

@@ -36,14 +36,21 @@ function ChatForm({ bottomRef }) {
   const dispatch = useDispatch();
 
   const { userId: foreignUserId } = useParams();
-  const { id: ownUserId } = getLocalUser();
+  const { id: ownUserId, username } = getLocalUser();
 
   const handleSend = async () => {
-    await dispatch(
-      sendChat({ chat: value, from: ownUserId, to: foreignUserId })
-    );
-    setValue('');
-    bottomRef.current.scrollIntoView();
+    if (value) {
+      await dispatch(
+        sendChat({
+          chat: value,
+          from: ownUserId,
+          to: foreignUserId,
+          fromUsername: username,
+        })
+      );
+      setValue('');
+      bottomRef.current.scrollIntoView();
+    }
   };
 
   return (

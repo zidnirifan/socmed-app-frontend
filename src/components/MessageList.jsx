@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
 import { grey } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
+import { Badge } from '@mui/material';
 
 export default function MessageList({ chatData }) {
   const navigate = useNavigate();
@@ -38,9 +39,14 @@ export default function MessageList({ chatData }) {
                   {chat.createdAt}
                 </Typography>
               </Box>
-              <Typography variant="body2" color={grey[600]} display="block">
-                {chat.chat}
-              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Typography variant="body2" color={grey[600]} display="block">
+                  {chat.chat.slice(0, 70)}
+                </Typography>
+                {!chat.isRead && (
+                  <Badge variant="dot" color="primary" sx={{ top: 9 }}></Badge>
+                )}
+              </Box>
             </Box>
           </ListItem>
           <Divider variant="inset" component="li" />

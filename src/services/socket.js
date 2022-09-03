@@ -1,5 +1,5 @@
-export const joinChat = (socket, ownUserId) => {
-  socket.emit('join-chat', ownUserId);
+export const joinRoom = (socket, ownUserId) => {
+  socket.emit('join-room', ownUserId);
 };
 
 export const receiveChat = (socket, handleReceiveChat) => {

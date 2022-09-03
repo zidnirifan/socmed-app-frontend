@@ -30,7 +30,7 @@ export const chatSlice = createSlice({
     setChats: (state, action) => {
       state.chats = action.payload;
     },
-    sendChat: (state, action) => {
+    sendChat: (state, { payload: { chat, from, to, fromUsername } }) => {
       const time = new Date().toLocaleTimeString('id-ID', {
         hour: '2-digit',
         minute: '2-digit',
@@ -39,17 +39,18 @@ export const chatSlice = createSlice({
 
       state.chats = state.chats.concat({
         side: 'right',
-        chat: action.payload.chat,
+        chat,
         time,
         date,
       });
 
       sendChatSocket(state.socket, {
-        chat: action.payload.chat,
+        chat,
         date,
         time,
-        from: action.payload.from,
-        to: action.payload.to,
+        from,
+        to,
+        fromUsername,
       });
     },
   },

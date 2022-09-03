@@ -12,7 +12,8 @@ import {
   socketSelector,
   setChats,
 } from '../redux/features/chatSlice';
-import { joinChat, receiveChat } from '../services/socket';
+import { receiveChat } from '../services/socket';
+import { readChat } from '../services/api';
 
 const Chat = () => {
   const bottomRef = useRef();
@@ -24,11 +25,13 @@ const Chat = () => {
   const { socket, chats } = useSelector(socketSelector);
 
   if (socket) {
-    joinChat(socket, ownUserId);
-
     receiveChat(socket, async (chat) => {
-      await dispatch(setChats(chats.concat({ side: 'left', ...chat })));
-      bottomRef.current.scrollIntoView();
+      const pathUrl = window.location.pathname;
+      if (pathUrl === `/message/${chat.from}/chat`) {
+        await dispatch(setChats(chats.concat({ side: 'left', ...chat })));
+        bottomRef.current.scrollIntoView();
+        readChat(foreignUserId);
+      }
     });
   }
 
@@ -36,6 +39,7 @@ const Chat = () => {
     async function fetchData() {
       await dispatch(getChats(foreignUserId));
       bottomRef.current.scrollIntoView();
+      readChat(foreignUserId);
     }
     fetchData();
   }, [dispatch, ownUserId, foreignUserId]);
@@ -53,7 +57,7 @@ const Chat = () => {
           return (
             <Box key={i}>
               {isDifferentDate && (
-                <Box sx={{ textAlign: 'center' }}>
+                <Box sx={{ textAlign: 'center', mb: 2 }}>
                   <Typography
                     color="white"
                     sx={{

@@ -18,7 +18,7 @@ import NotFound from './pages/NotFound';
 import { io } from 'socket.io-client';
 import { setSocket } from './redux/features/chatSlice';
 import { useDispatch } from 'react-redux';
-import { joinRoom, receiveChat } from './services/socket';
+import { joinRoom, receiveChat, receiveNotif } from './services/socket';
 import { requestPermission, showNotification } from './services/notification';
 import Notifications from './pages/Notifications';
 
@@ -39,6 +39,16 @@ function App() {
 
       socket.on('connect', () => {
         dispatch(setSocket(socket));
+      });
+
+      receiveNotif(socket, ({ text, username }) => {
+        showNotification({
+          title: '',
+          options: {
+            body: `${username} ${text}`,
+          },
+          url: `${window.location.origin}/notifications`,
+        });
       });
 
       receiveChat(socket, ({ chat, fromUsername, from }) => {

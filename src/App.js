@@ -20,6 +20,7 @@ import { setSocket } from './redux/features/chatSlice';
 import { useDispatch } from 'react-redux';
 import { joinRoom, receiveChat } from './services/socket';
 import { requestPermission, showNotification } from './services/notification';
+import Notifications from './pages/Notifications';
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
@@ -81,6 +82,10 @@ function App() {
       <Route
         path="/edit-profile"
         element={isLogin ? <EditProfile /> : <Login />}
+      />
+      <Route
+        path="/notifications"
+        element={isLogin ? <Notifications /> : <Login />}
       />
       <Route path="*" element={<NotFound />} />
     </Routes>

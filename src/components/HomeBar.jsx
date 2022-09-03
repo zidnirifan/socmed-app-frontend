@@ -23,7 +23,11 @@ function HomeBar() {
             <AddCircleIcon fontSize="medium" />
           </IconButton>
           <IconButton color="inherit">
-            <Badge badgeContent={7} color="error">
+            <Badge
+              badgeContent={7}
+              color="error"
+              onClick={() => navigate('/notifications')}
+            >
               <FavoriteBorderIcon fontSize="medium" />
             </Badge>
           </IconButton>

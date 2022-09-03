@@ -13,6 +13,7 @@ import {
   setChats,
 } from '../redux/features/chatSlice';
 import { receiveChat } from '../services/socket';
+import { readChat } from '../services/api';
 
 const Chat = () => {
   const bottomRef = useRef();
@@ -29,6 +30,7 @@ const Chat = () => {
       if (pathUrl === `/message/${chat.from}/chat`) {
         await dispatch(setChats(chats.concat({ side: 'left', ...chat })));
         bottomRef.current.scrollIntoView();
+        readChat(foreignUserId);
       }
     });
   }
@@ -37,6 +39,7 @@ const Chat = () => {
     async function fetchData() {
       await dispatch(getChats(foreignUserId));
       bottomRef.current.scrollIntoView();
+      readChat(foreignUserId);
     }
     fetchData();
   }, [dispatch, ownUserId, foreignUserId]);

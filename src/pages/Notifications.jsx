@@ -1,50 +1,24 @@
+import { useCallback, useEffect, useState } from 'react';
 import NotifBar from '../components/NotifBar';
 import NotifList from '../components/NotifList';
-
-const notifData = [
-  {
-    id: '2323',
-    type: 'follow',
-    user: {
-      id: '123',
-      username: 'jhondoe',
-      profilePhoto: '',
-    },
-    text: 'started following you',
-    createdAt: '1d',
-  },
-  {
-    id: '2323',
-    type: 'like',
-    user: {
-      id: '123',
-      username: 'gedang',
-      profilePhoto: '',
-    },
-    text: 'like your post',
-    postId: 'post01',
-    createdAt: '1d',
-  },
-  {
-    id: '2323',
-    type: 'comment',
-    user: {
-      id: '123',
-      username: 'supri',
-      profilePhoto: '',
-    },
-    postId: 'post01',
-    commentId: 'comment-1',
-    text: 'commented: Wadidaw wkwk wkwk wk',
-    createdAt: '1d',
-  },
-];
+import { getNotifications } from '../services/api';
 
 export default function Notifications() {
+  const [notifications, setNotifications] = useState([]);
+
+  const getNotif = useCallback(async () => {
+    const { data } = await getNotifications();
+    setNotifications(data.notifs);
+  }, []);
+
+  useEffect(() => {
+    getNotif();
+  }, [getNotif]);
+
   return (
     <>
       <NotifBar />
-      <NotifList notifData={notifData} />
+      <NotifList notifications={notifications} />
     </>
   );
 }

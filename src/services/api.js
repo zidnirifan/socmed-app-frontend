@@ -351,3 +351,17 @@ export const getCountNotifChat = async () => {
     return error.response.data;
   }
 };
+
+export const getNotifications = async () => {
+  try {
+    const ENDPOINT = 'notifications';
+    const { data } = await axiosAuth({
+      method: 'get',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

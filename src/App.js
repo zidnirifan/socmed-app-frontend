@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AddPost from './pages/AddPost';
 import Chat from './pages/Chat';
@@ -21,83 +20,64 @@ import { useDispatch } from 'react-redux';
 import { joinRoom, receiveChat, receiveNotif } from './services/socket';
 import { requestPermission, showNotification } from './services/notification';
 import Notifications from './pages/Notifications';
+import PrivateRoutes from './utils/PrivateRoutes';
 
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
-  const socket = io(process.env.REACT_APP_API_URL);
-
+  const isLogin = isTokenExist();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setIsLogin(isTokenExist());
+  if (isLogin) {
+    requestPermission();
 
-    if (isLogin) {
-      requestPermission();
-      const { id } = getLocalUser();
+    const socket = io(process.env.REACT_APP_API_URL);
+    const { id } = getLocalUser();
 
-      joinRoom(socket, id);
+    joinRoom(socket, id);
 
-      socket.on('connect', () => {
-        dispatch(setSocket(socket));
+    socket.on('connect', () => {
+      dispatch(setSocket(socket));
+    });
+
+    receiveNotif(socket, ({ text, username }) => {
+      showNotification({
+        title: '',
+        options: {
+          body: `${username} ${text}`,
+        },
+        url: `${window.location.origin}/notifications`,
       });
+    });
 
-      receiveNotif(socket, ({ text, username }) => {
-        showNotification({
-          title: '',
-          options: {
-            body: `${username} ${text}`,
-          },
-          url: `${window.location.origin}/notifications`,
-        });
+    receiveChat(socket, ({ chat, fromUsername, from }) => {
+      showNotification({
+        title: fromUsername,
+        options: {
+          body: chat,
+        },
+        url: `${window.location.origin}/message/${from}/chat`,
       });
-
-      receiveChat(socket, ({ chat, fromUsername, from }) => {
-        showNotification({
-          title: fromUsername,
-          options: {
-            body: chat,
-          },
-          url: `${window.location.origin}/message/${from}/chat`,
-        });
-      });
-    }
-  }, [dispatch, socket, isLogin]);
+    });
+  }
 
   return (
     <Routes>
-      <Route path="/" element={isLogin ? <Home /> : <Login />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route
-        path="/signup-photo"
-        element={isLogin ? <SignupPhoto /> : <Login />}
-      />
-      <Route
-        path="/profile/:userId"
-        element={isLogin ? <Profile /> : <Login />}
-      />
-      <Route path="/profile" element={isLogin ? <OwnProfile /> : <Login />} />
-      <Route path="/explore" element={isLogin ? <Explore /> : <Login />} />
-      <Route path="/add-post" element={isLogin ? <AddPost /> : <Login />} />
-      <Route path="/message" element={isLogin ? <Message /> : <Login />} />
-      <Route
-        path="/message/:userId/chat"
-        element={isLogin ? <Chat /> : <Login />}
-      />
-      <Route path="/post/:postId" element={isLogin ? <PostId /> : <Login />} />
-      <Route
-        path="/post/:postId/comments"
-        element={isLogin ? <Comments /> : <Login />}
-      />
-      <Route
-        path="/edit-profile"
-        element={isLogin ? <EditProfile /> : <Login />}
-      />
-      <Route
-        path="/notifications"
-        element={isLogin ? <Notifications /> : <Login />}
-      />
-      <Route path="*" element={<NotFound />} />
+      <Route element={<PrivateRoutes isLogin={isLogin} />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/signup-photo" element={<SignupPhoto />} />
+        <Route path="/profile/:userId" element={<Profile />} />
+        <Route path="/profile" element={<OwnProfile />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/add-post" element={<AddPost />} />
+        <Route path="/message" element={<Message />} />
+        <Route path="/message/:userId/chat" element={<Chat />} />
+        <Route path="/post/:postId" element={<PostId />} />
+        <Route path="/post/:postId/comments" element={<Comments />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/notifications" element={<Notifications />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
     </Routes>
   );
 }

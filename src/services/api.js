@@ -365,3 +365,17 @@ export const getNotifications = async () => {
     return error.response.data;
   }
 };
+
+export const readNotifications = async () => {
+  try {
+    const ENDPOINT = 'notifications/read';
+    const { data } = await axiosAuth({
+      method: 'put',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

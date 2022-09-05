@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import NotifBar from '../components/NotifBar';
 import NotifList from '../components/NotifList';
-import { getNotifications } from '../services/api';
+import { getNotifications, readNotifications } from '../services/api';
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
@@ -9,6 +9,7 @@ export default function Notifications() {
   const getNotif = useCallback(async () => {
     const { data } = await getNotifications();
     setNotifications(data.notifs);
+    readNotifications();
   }, []);
 
   useEffect(() => {

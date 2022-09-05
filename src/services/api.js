@@ -337,3 +337,45 @@ export const readChat = async (userId) => {
     return error.response.data;
   }
 };
+
+export const getCountNotifChat = async () => {
+  try {
+    const ENDPOINT = 'notifications/count';
+    const { data } = await axiosAuth({
+      method: 'get',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const getNotifications = async () => {
+  try {
+    const ENDPOINT = 'notifications';
+    const { data } = await axiosAuth({
+      method: 'get',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const readNotifications = async () => {
+  try {
+    const ENDPOINT = 'notifications/read';
+    const { data } = await axiosAuth({
+      method: 'put',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

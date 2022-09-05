@@ -67,6 +67,8 @@ function CommentInput() {
 
     navigate(`${window.location.pathname}#${data.commentId}`);
     dispatch(getComments(postId));
+    dispatch(setReplyTo({}));
+    setContent('');
   };
 
   const closeReply = () => {
@@ -142,6 +144,7 @@ function CommentInput() {
               placeholder="Add a comment..."
               inputProps={{ 'aria-label': 'search' }}
               multiline={true}
+              value={content}
               onChange={handleChangeInput}
               id="comment-input"
             />

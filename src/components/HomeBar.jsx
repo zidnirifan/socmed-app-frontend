@@ -3,9 +3,44 @@ import AddCircleIcon from '@mui/icons-material/AddCircleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { socketSelector } from '../redux/features/chatSlice';
+import { useEffect, useState } from 'react';
+import { receiveChat, receiveNotif } from '../services/socket';
+import { useCallback } from 'react';
+import { getCountNotifChat } from '../services/api';
 
 function HomeBar() {
   const navigate = useNavigate();
+  const { socket } = useSelector(socketSelector);
+
+  const [notif, setNotif] = useState(0);
+  const [chat, setChat] = useState(0);
+
+  if (socket) {
+    receiveNotif(socket, () => {
+      const pathUrl = window.location.pathname;
+      if (pathUrl === '/') {
+        setNotif(notif + 1);
+      }
+    });
+    receiveChat(socket, () => {
+      const pathUrl = window.location.pathname;
+      if (pathUrl === '/') {
+        setChat(chat + 1);
+      }
+    });
+  }
+
+  const getNotif = useCallback(async () => {
+    const { data } = await getCountNotifChat();
+    setNotif(data.notif);
+    setChat(data.chat);
+  }, []);
+
+  useEffect(() => {
+    getNotif();
+  }, [chat, getNotif, notif, socket]);
 
   return (
     <>
@@ -22,13 +57,16 @@ function HomeBar() {
           <IconButton color="inherit" onClick={() => navigate('/add-post')}>
             <AddCircleIcon fontSize="medium" />
           </IconButton>
-          <IconButton color="inherit">
-            <Badge badgeContent={7} color="error">
+          <IconButton
+            color="inherit"
+            onClick={() => navigate('/notifications')}
+          >
+            <Badge badgeContent={notif} color="error">
               <FavoriteBorderIcon fontSize="medium" />
             </Badge>
           </IconButton>
           <IconButton color="inherit" onClick={() => navigate('/message')}>
-            <Badge badgeContent={1} color="error">
+            <Badge badgeContent={chat} color="error">
               <ChatIcon fontSize="medium" />
             </Badge>
           </IconButton>

@@ -337,3 +337,17 @@ export const readChat = async (userId) => {
     return error.response.data;
   }
 };
+
+export const getCountNotifChat = async () => {
+  try {
+    const ENDPOINT = 'notifications/count';
+    const { data } = await axiosAuth({
+      method: 'get',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

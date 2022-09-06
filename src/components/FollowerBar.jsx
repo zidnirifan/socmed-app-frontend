@@ -1,10 +1,24 @@
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackIosNew';
-import WriteIcon from '@mui/icons-material/RateReview';
+import { useCallback, useEffect, useState } from 'react';
+import { getUserById } from '../services/api';
 
-function MessageBar() {
+function FollowerBar() {
+  const { userId } = useParams();
   const navigate = useNavigate();
+
+  const [user, setUser] = useState({});
+
+  const getUserData = useCallback(async () => {
+    const user = await getUserById(userId);
+
+    setUser(user.data.user);
+  }, [userId]);
+
+  useEffect(() => {
+    getUserData();
+  }, [getUserData]);
 
   return (
     <>
@@ -21,19 +35,15 @@ function MessageBar() {
             variant="subtitle1"
             sx={{ flexGrow: 2, textAlign: 'center', fontSize: 18 }}
           >
-            Messages
+            {user.username}
           </Typography>
           <IconButton
-            color="inherit"
             sx={{ flexGrow: 1, justifyContent: 'flex-end' }}
-            onClick={() => navigate('/contacts')}
-          >
-            <WriteIcon fontSize="medium" />
-          </IconButton>
+          ></IconButton>
         </Toolbar>
       </AppBar>
     </>
   );
 }
 
-export default MessageBar;
+export default FollowerBar;

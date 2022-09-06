@@ -1,16 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import MessageList from '../components/MessageList';
 import MessageBar from '../components/MessageBar';
-import { getLatestChats as getLatestChatsApi } from '../services/api';
+import {
+  getFollowing,
+  getLatestChats as getLatestChatsApi,
+  getSuggestedUsers,
+} from '../services/api';
 import { getLocalUser } from '../services/token';
 import { receiveChat } from '../services/socket';
 import { useSelector } from 'react-redux';
 import { socketSelector } from '../redux/features/chatSlice';
+import ContactList from '../components/ContactList';
+import { Typography } from '@mui/material';
 
 export default function Message() {
   const { id: userId } = getLocalUser();
 
   const [chats, setChats] = useState([]);
+  const [suggestedUsers, setSuggestedUsers] = useState([]);
+  const [followingUsers, setFollowingUsers] = useState([]);
 
   const { socket } = useSelector(socketSelector);
 
@@ -50,7 +58,12 @@ export default function Message() {
       isRead: chat.from.id !== userId ? chat.isRead : true,
     }));
 
+    const suggested = await getSuggestedUsers();
+    const following = await getFollowing(userId);
+
     setChats(chatsMapped);
+    setSuggestedUsers(suggested.data.users);
+    setFollowingUsers(following.data.users);
   }, [userId]);
 
   useEffect(() => {
@@ -61,6 +74,30 @@ export default function Message() {
     <>
       <MessageBar />
       <MessageList chatData={chats} />
+
+      <Typography
+        variant="body1"
+        sx={{
+          marginTop: 3,
+          paddingLeft: 2,
+          fontWeight: 500,
+        }}
+      >
+        Following
+      </Typography>
+      <ContactList users={followingUsers} />
+
+      <Typography
+        variant="body1"
+        sx={{
+          marginTop: 1,
+          paddingLeft: 2,
+          fontWeight: 500,
+        }}
+      >
+        Suggested for you
+      </Typography>
+      <ContactList users={suggestedUsers} />
     </>
   );
 }

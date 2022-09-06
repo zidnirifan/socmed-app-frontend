@@ -22,6 +22,7 @@ import { requestPermission, showNotification } from './services/notification';
 import Notifications from './pages/Notifications';
 import PrivateRoutes from './utils/PrivateRoutes';
 import Followers from './pages/Followers';
+import Contacts from './pages/Contacts';
 
 function App() {
   const isLogin = isTokenExist();
@@ -85,6 +86,7 @@ function App() {
           path="/:userId/following"
           element={<Followers type="following" />}
         />
+        <Route path="/contacts" element={<Contacts />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

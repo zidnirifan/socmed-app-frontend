@@ -21,6 +21,7 @@ export const commentSlice = createSlice({
   name: 'comment',
   initialState: commentEntity.getInitialState({
     replyTo: { username: '', replyTo: '', parentComment: '' },
+    loading: true,
   }),
   reducers: {
     setReplyTo: (state, action) => {
@@ -30,6 +31,7 @@ export const commentSlice = createSlice({
   extraReducers: {
     [getComments.fulfilled]: (state, action) => {
       commentEntity.setAll(state, action.payload);
+      state.loading = false;
     },
   },
 });
@@ -41,5 +43,6 @@ export const commentSelector = commentEntity.getSelectors(
 export const { setReplyTo } = commentSlice.actions;
 
 export const replyToSelector = (state) => state.comment.replyTo;
+export const loadingSelector = (state) => state.comment.loading;
 
 export default commentSlice.reducer;

@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { getFollowers, getFollowing } from '../services/api';
 import UserList from '../components/UserList';
 import FollowerBar from '../components/FollowerBar';
+import SkeletonList from '../components/skeleton/SkeletonList';
 
 function Followers({ type }) {
   const { userId } = useParams();
@@ -15,6 +16,7 @@ function Followers({ type }) {
     setValue(newValue);
   };
 
+  const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
 
   const getUsers = useCallback(async () => {
@@ -23,6 +25,7 @@ function Followers({ type }) {
         ? await getFollowers(userId)
         : await getFollowing(userId);
 
+    setLoading(false);
     setUsers(userData.data.users);
   }, [userId, value]);
 
@@ -39,7 +42,7 @@ function Followers({ type }) {
           <Tab value="followers" label="Followers" />
           <Tab value="following" label="Following" />
         </Tabs>
-        <UserList users={users} />
+        {loading ? <SkeletonList amount={10} /> : <UserList users={users} />}
       </Box>
     </>
   );

@@ -21,6 +21,7 @@ import { joinRoom, receiveChat, receiveNotif } from './services/socket';
 import { requestPermission, showNotification } from './services/notification';
 import Notifications from './pages/Notifications';
 import PrivateRoutes from './utils/PrivateRoutes';
+import Followers from './pages/Followers';
 
 function App() {
   const isLogin = isTokenExist();
@@ -76,6 +77,14 @@ function App() {
         <Route path="/post/:postId/comments" element={<Comments />} />
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/notifications" element={<Notifications />} />
+        <Route
+          path="/:userId/followers"
+          element={<Followers type="followers" />}
+        />
+        <Route
+          path="/:userId/following"
+          element={<Followers type="following" />}
+        />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

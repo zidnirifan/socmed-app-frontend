@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
-import UserList from './UserList';
+import UserSearchList from './UserSearchList';
 import { searchUsers } from '../services/api';
 
 const Search = styled('div')(({ theme }) => ({
@@ -71,7 +71,7 @@ export default function SearchBar() {
           {text.length === 0 ? (
             <></>
           ) : (
-            <UserList users={users} display={displayResult} />
+            <UserSearchList users={users} display={displayResult} />
           )}
         </Search>
       </Toolbar>

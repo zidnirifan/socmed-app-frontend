@@ -5,19 +5,27 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import HomeBar from '../components/HomeBar';
 import Navbar from '../components/NavBar';
 import Post from '../components/Post';
-import { getFollowingPosts, getSuggestedPosts } from '../services/api';
+import {
+  getFollowingPosts,
+  getSuggestedPosts,
+  getSuggestedUsers,
+} from '../services/api';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
+import SuggestedUserList from '../components/SuggestedUserList';
 
 function Home() {
   const [followingPosts, setFollowingPosts] = useState([]);
   const [suggestedPosts, setSuggestedPosts] = useState([]);
+  const [suggestedUsers, setSuggestedUsers] = useState([]);
 
-  const getHomePostList = useCallback(async () => {
+  const getHomeData = useCallback(async () => {
     const following = await getFollowingPosts();
     const suggested = await getSuggestedPosts();
+    const users = await getSuggestedUsers();
 
     setFollowingPosts(following.data.posts);
     setSuggestedPosts(suggested.data.posts);
+    setSuggestedUsers(users.data.users);
   }, []);
 
   const fetchMoreData = async () => {
@@ -27,8 +35,8 @@ function Home() {
   };
 
   useEffect(() => {
-    getHomePostList();
-  }, [getHomePostList]);
+    getHomeData();
+  }, [getHomeData]);
 
   return (
     <>
@@ -54,6 +62,17 @@ function Home() {
       ) : (
         followingPosts.map((post) => <Post postData={post} key={post.id} />)
       )}
+
+      <Typography
+        variant="h6"
+        sx={{
+          marginTop: 1,
+          paddingLeft: 2,
+        }}
+      >
+        Suggested for you
+      </Typography>
+      <SuggestedUserList users={suggestedUsers} />
 
       <Typography
         variant="h5"

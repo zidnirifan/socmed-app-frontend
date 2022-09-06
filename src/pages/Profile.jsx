@@ -13,16 +13,19 @@ import { grey } from '@mui/material/colors';
 import GridIcon from '@mui/icons-material/GridOnOutlined';
 import ThumbnailList from '../components/ThumbnailList';
 import ProfileBar from '../components/ProfileBar';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import {
   getProfile as getProfileApi,
   followUser as followUserApi,
 } from '../services/api';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
+import { getLocalUser } from '../services/token';
 
 function Profile() {
   const { userId } = useParams();
+  const { id: ownUserId } = getLocalUser();
+
   const navigate = useNavigate();
 
   const [user, setUser] = useState({});
@@ -47,7 +50,9 @@ function Profile() {
     setFollowers(user.followersCount);
   }, [getProfile, setIsFollowed, user.isFollowed, user.followersCount]);
 
-  return (
+  return userId === ownUserId ? (
+    <Navigate to="/profile" />
+  ) : (
     <>
       <Navbar />
       <ProfileBar username={user.username} />
@@ -136,6 +141,7 @@ function Profile() {
             variant="outlined"
             size="small"
             sx={{ width: '48%', float: 'right' }}
+            onClick={() => navigate(`/message/${userId}/chat`)}
           >
             Message
           </Button>

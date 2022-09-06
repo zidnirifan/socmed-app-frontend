@@ -14,6 +14,11 @@ export default function SignupPhoto() {
     setPhotoUrl(response.data.profilePhoto);
   };
 
+  const redirectHome = () => {
+    navigate('/');
+    window.location.reload();
+  };
+
   return (
     <Container>
       <Box
@@ -57,7 +62,7 @@ export default function SignupPhoto() {
           fullWidth
           variant="contained"
           color="primary"
-          onClick={() => navigate('/')}
+          onClick={redirectHome}
         >
           Skip
         </Button>

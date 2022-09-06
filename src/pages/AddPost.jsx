@@ -103,7 +103,7 @@ const AddPost = () => {
       >
         <UserBox>
           <Avatar src={user.profilePhoto} sx={{ width: 35, height: 35 }} />
-          <Typography fontWeight={500} variant="subtitle2">
+          <Typography fontWeight={500} variant="subtitle2" sx={{ ml: 1 }}>
             {user.username}
           </Typography>
         </UserBox>

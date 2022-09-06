@@ -6,13 +6,28 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackIosNew';
 import PhoneIcon from '@mui/icons-material/Phone';
 import VideocamIcon from '@mui/icons-material/Videocam';
+import { useCallback, useEffect, useState } from 'react';
+import { getUserById } from '../services/api';
 
 function ChatBar() {
+  const { userId } = useParams();
   const navigate = useNavigate();
+
+  const [user, setUser] = useState({});
+
+  const getUserData = useCallback(async () => {
+    const user = await getUserById(userId);
+
+    setUser(user.data.user);
+  }, [userId]);
+
+  useEffect(() => {
+    getUserData();
+  }, [getUserData]);
 
   return (
     <>
@@ -32,12 +47,12 @@ function ChatBar() {
               justifyContent: 'flex-start',
             }}
           >
-            <Avatar sx={{ width: 37, height: 37 }} />
+            <Avatar sx={{ width: 37, height: 37 }} src={user.profilePhoto} />
             <Typography
               variant="subtitle1"
               sx={{ alignSelf: 'center', marginLeft: 1 }}
             >
-              Stranger User
+              {user.fullName}
             </Typography>
           </Box>
           <Box

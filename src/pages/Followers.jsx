@@ -1,11 +1,11 @@
 import { Tab, Tabs } from '@mui/material';
 import { Box } from '@mui/system';
 import Navbar from '../components/NavBar';
-import ProfileBar from '../components/ProfileBar';
 import { useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { getFollowers, getFollowing } from '../services/api';
 import UserList from '../components/UserList';
+import FollowerBar from '../components/FollowerBar';
 
 function Followers({ type }) {
   const { userId } = useParams();
@@ -33,7 +33,7 @@ function Followers({ type }) {
   return (
     <>
       <Navbar />
-      <ProfileBar username={'jhondoe'} />
+      <FollowerBar />
       <Box sx={{ width: '100%' }}>
         <Tabs value={value} variant="fullWidth" onChange={handleChange}>
           <Tab value="followers" label="Followers" />

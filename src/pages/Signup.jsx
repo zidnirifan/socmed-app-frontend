@@ -102,7 +102,8 @@ export default function Signup() {
         username: user.username,
         password: user.password,
       });
-      return navigate('/signup-photo');
+      navigate('/signup-photo');
+      window.location.reload();
     }
     if (
       response.status === 'fail' &&

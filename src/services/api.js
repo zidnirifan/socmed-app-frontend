@@ -4,6 +4,7 @@ import {
   getRefreshToken,
   logoutLocal,
   setAccessToken,
+  setLocalUser,
   setRefreshToken,
 } from './token';
 
@@ -44,6 +45,16 @@ export const loginUser = async ({ username, password }) => {
 
     setAccessToken(data.data.accessToken);
     setRefreshToken(data.data.refreshToken);
+
+    const {
+      data: { user },
+    } = await getUserById();
+
+    setLocalUser({
+      id: user.id,
+      username: user.username,
+      profilePhoto: user.profilePhoto,
+    });
 
     return data;
   } catch (error) {
@@ -422,7 +433,7 @@ export const getSuggestedUsers = async () => {
   }
 };
 
-export const getUserById = async (id) => {
+export const getUserById = async (id = '') => {
   try {
     const ENDPOINT = `users/${id}`;
     const { data } = await axiosAuth({

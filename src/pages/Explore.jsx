@@ -5,7 +5,7 @@ import { getExplorePostsMedia } from '../services/api';
 import Navbar from '../components/NavBar';
 import SearchNavbar from '../components/SearchBar';
 import { useNavigate } from 'react-router-dom';
-import SkeletonExplore from '../components/SkeletonExplore';
+import SkeletonExplore from '../components/skeleton/SkeletonExplore';
 
 export default function Explore() {
   const navigate = useNavigate();

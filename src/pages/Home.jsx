@@ -12,7 +12,7 @@ import {
 } from '../services/api';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import SuggestedUserList from '../components/SuggestedUserList';
-import SkeletonPost from '../components/SkeletonPost';
+import SkeletonPost from '../components/skeleton/SkeletonPost';
 
 function Home() {
   const [loading, setLoading] = useState(true);

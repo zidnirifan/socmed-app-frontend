@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import OwnProfileBar from '../components/ownProfileBar';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import { getLocalUser } from '../services/token';
-import SkeletonProfile from '../components/SkeletonProfile';
+import SkeletonProfile from '../components/skeleton/SkeletonProfile';
 
 function OwnProfile() {
   const navigate = useNavigate();

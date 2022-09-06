@@ -21,7 +21,7 @@ import {
 } from '../services/api';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import { getLocalUser } from '../services/token';
-import SkeletonProfile from '../components/SkeletonProfile';
+import SkeletonProfile from '../components/skeleton/SkeletonProfile';
 
 function Profile() {
   const { userId } = useParams();

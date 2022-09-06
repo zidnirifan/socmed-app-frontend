@@ -379,3 +379,31 @@ export const readNotifications = async () => {
     return error.response.data;
   }
 };
+
+export const getFollowers = async (id) => {
+  try {
+    const ENDPOINT = `users/${id}/followers`;
+    const { data } = await axiosAuth({
+      method: 'get',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const getFollowing = async (id) => {
+  try {
+    const ENDPOINT = `users/${id}/following`;
+    const { data } = await axiosAuth({
+      method: 'get',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

@@ -13,7 +13,7 @@ import { grey } from '@mui/material/colors';
 import GridIcon from '@mui/icons-material/GridOnOutlined';
 import ThumbnailList from '../components/ThumbnailList';
 import ProfileBar from '../components/ProfileBar';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import {
   getProfile as getProfileApi,
@@ -23,6 +23,7 @@ import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 
 function Profile() {
   const { userId } = useParams();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({});
   const [isFollowed, setIsFollowed] = useState(false);
@@ -80,7 +81,12 @@ function Profile() {
                 Posts
               </Typography>
             </Grid>
-            <Grid item xs={4} sx={{ paddingTop: 3.5 }}>
+            <Grid
+              item
+              xs={4}
+              sx={{ paddingTop: 3.5 }}
+              onClick={() => navigate(`/${userId}/followers`)}
+            >
               <Typography
                 variant="subtitle1"
                 textAlign="center"
@@ -92,7 +98,12 @@ function Profile() {
                 Followers
               </Typography>
             </Grid>
-            <Grid item xs={4} sx={{ paddingTop: 3.5 }}>
+            <Grid
+              item
+              xs={4}
+              sx={{ paddingTop: 3.5 }}
+              onClick={() => navigate(`/${userId}/following`)}
+            >
               <Typography
                 variant="subtitle1"
                 textAlign="center"

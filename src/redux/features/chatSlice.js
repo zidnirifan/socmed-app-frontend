@@ -5,6 +5,7 @@ import { getConversation as getConversationApi } from '../../services/api';
 const initialState = {
   socket: null,
   chats: [],
+  loading: true,
 };
 
 export const getChats = createAsyncThunk(
@@ -57,6 +58,7 @@ export const chatSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(getChats.fulfilled, (state, action) => {
       state.chats = action.payload;
+      state.loading = false;
     });
   },
 });

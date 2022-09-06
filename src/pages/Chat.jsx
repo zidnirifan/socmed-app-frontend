@@ -14,6 +14,7 @@ import {
 } from '../redux/features/chatSlice';
 import { receiveChat } from '../services/socket';
 import { readChat } from '../services/api';
+import SkeletonChat from '../components/skeleton/SkeletonChat';
 
 const Chat = () => {
   const bottomRef = useRef();
@@ -22,7 +23,7 @@ const Chat = () => {
   const { userId: foreignUserId } = useParams();
   const { id: ownUserId } = getLocalUser();
 
-  const { socket, chats } = useSelector(socketSelector);
+  const { socket, chats, loading } = useSelector(socketSelector);
 
   if (socket) {
     receiveChat(socket, async (chat) => {
@@ -49,37 +50,43 @@ const Chat = () => {
   return (
     <>
       <ChatBar />
-      <Box id="chat-list" sx={{ padding: 2 }}>
-        {chats.map((c, i) => {
-          const isDifferentDate = c.date !== date;
-          date = c.date;
+      {loading ? (
+        <SkeletonChat amount={10} />
+      ) : (
+        <>
+          <Box id="chat-list" sx={{ padding: 2 }}>
+            {chats.map((c, i) => {
+              const isDifferentDate = c.date !== date;
+              date = c.date;
 
-          return (
-            <Box key={i}>
-              {isDifferentDate && (
-                <Box sx={{ textAlign: 'center', mb: 2 }}>
-                  <Typography
-                    color="white"
-                    sx={{
-                      backgroundColor: grey[600],
-                      display: 'inline',
-                      fontSize: 12,
-                      paddingY: 0.7,
-                      paddingX: 2,
-                      borderRadius: 3,
-                    }}
-                  >
-                    {c.date}
-                  </Typography>
+              return (
+                <Box key={i}>
+                  {isDifferentDate && (
+                    <Box sx={{ textAlign: 'center', mb: 2 }}>
+                      <Typography
+                        color="white"
+                        sx={{
+                          backgroundColor: grey[600],
+                          display: 'inline',
+                          fontSize: 12,
+                          paddingY: 0.7,
+                          paddingX: 2,
+                          borderRadius: 3,
+                        }}
+                      >
+                        {c.date}
+                      </Typography>
+                    </Box>
+                  )}
+
+                  <ChatItem side={c.side} chat={c.chat} time={c.time} key={i} />
                 </Box>
-              )}
-
-              <ChatItem side={c.side} chat={c.chat} time={c.time} key={i} />
-            </Box>
-          );
-        })}
-      </Box>
-      <Box height="50px" ref={bottomRef} />
+              );
+            })}
+          </Box>
+          <Box height="50px" ref={bottomRef} />
+        </>
+      )}
       <ChatForm bottomRef={bottomRef} />
     </>
   );

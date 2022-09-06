@@ -407,3 +407,16 @@ export const getFollowing = async (id) => {
     return error.response.data;
   }
 };
+export const getSuggestedUsers = async () => {
+  try {
+    const ENDPOINT = 'users/suggested';
+    const { data } = await axiosAuth({
+      method: 'get',
+      url: `${URL_API}/${ENDPOINT}`,
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

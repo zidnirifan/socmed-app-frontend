@@ -12,10 +12,12 @@ import { useSelector } from 'react-redux';
 import { socketSelector } from '../redux/features/chatSlice';
 import ContactList from '../components/ContactList';
 import { Typography } from '@mui/material';
+import SkeletonList from '../components/skeleton/SkeletonList';
 
 export default function Message() {
   const { id: userId } = getLocalUser();
 
+  const [loading, setLoading] = useState(true);
   const [chats, setChats] = useState([]);
   const [suggestedUsers, setSuggestedUsers] = useState([]);
   const [followingUsers, setFollowingUsers] = useState([]);
@@ -61,6 +63,7 @@ export default function Message() {
     const suggested = await getSuggestedUsers();
     const following = await getFollowing(userId);
 
+    setLoading(false);
     setChats(chatsMapped);
     setSuggestedUsers(suggested.data.users);
     setFollowingUsers(following.data.users);
@@ -73,31 +76,37 @@ export default function Message() {
   return (
     <>
       <MessageBar />
-      <MessageList chatData={chats} />
+      {loading ? (
+        <SkeletonList amount={10} />
+      ) : (
+        <>
+          <MessageList chatData={chats} />
 
-      <Typography
-        variant="body1"
-        sx={{
-          marginTop: 3,
-          paddingLeft: 2,
-          fontWeight: 500,
-        }}
-      >
-        Following
-      </Typography>
-      <ContactList users={followingUsers} />
+          <Typography
+            variant="body1"
+            sx={{
+              marginTop: 3,
+              paddingLeft: 2,
+              fontWeight: 500,
+            }}
+          >
+            Following
+          </Typography>
+          <ContactList users={followingUsers} />
 
-      <Typography
-        variant="body1"
-        sx={{
-          marginTop: 1,
-          paddingLeft: 2,
-          fontWeight: 500,
-        }}
-      >
-        Suggested for you
-      </Typography>
-      <ContactList users={suggestedUsers} />
+          <Typography
+            variant="body1"
+            sx={{
+              marginTop: 1,
+              paddingLeft: 2,
+              fontWeight: 500,
+            }}
+          >
+            Suggested for you
+          </Typography>
+          <ContactList users={suggestedUsers} />
+        </>
+      )}
     </>
   );
 }

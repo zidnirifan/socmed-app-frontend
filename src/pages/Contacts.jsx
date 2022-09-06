@@ -4,10 +4,12 @@ import { getFollowing, getSuggestedUsers } from '../services/api';
 import { getLocalUser } from '../services/token';
 import ContactList from '../components/ContactList';
 import ContactBar from '../components/ContactBar';
+import SkeletonList from '../components/skeleton/SkeletonList';
 
 function Contacts() {
   const { id: userId } = getLocalUser();
 
+  const [loading, setLoading] = useState(true);
   const [suggestedUsers, setSuggestedUsers] = useState([]);
   const [followingUsers, setFollowingUsers] = useState([]);
 
@@ -15,6 +17,7 @@ function Contacts() {
     const suggested = await getSuggestedUsers();
     const following = await getFollowing(userId);
 
+    setLoading(false);
     setSuggestedUsers(suggested.data.users);
     setFollowingUsers(following.data.users);
   }, [userId]);
@@ -26,29 +29,35 @@ function Contacts() {
   return (
     <>
       <ContactBar />
-      <Typography
-        variant="body1"
-        sx={{
-          mt: 1,
-          paddingLeft: 2,
-          fontWeight: 500,
-        }}
-      >
-        Following
-      </Typography>
-      <ContactList users={followingUsers} />
+      {loading ? (
+        <SkeletonList amount={10} />
+      ) : (
+        <>
+          <Typography
+            variant="body1"
+            sx={{
+              mt: 1,
+              paddingLeft: 2,
+              fontWeight: 500,
+            }}
+          >
+            Following
+          </Typography>
+          <ContactList users={followingUsers} />
 
-      <Typography
-        variant="body1"
-        sx={{
-          marginTop: 1,
-          paddingLeft: 2,
-          fontWeight: 500,
-        }}
-      >
-        Suggested for you
-      </Typography>
-      <ContactList users={suggestedUsers} />
+          <Typography
+            variant="body1"
+            sx={{
+              marginTop: 1,
+              paddingLeft: 2,
+              fontWeight: 500,
+            }}
+          >
+            Suggested for you
+          </Typography>
+          <ContactList users={suggestedUsers} />
+        </>
+      )}
     </>
   );
 }

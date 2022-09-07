@@ -90,17 +90,21 @@ export default function Message() {
             <MessageList chatData={chats} />
           )}
 
-          <Typography
-            variant="body1"
-            sx={{
-              marginTop: 3,
-              paddingLeft: 2,
-              fontWeight: 500,
-            }}
-          >
-            Following
-          </Typography>
-          <ContactList users={followingUsers} />
+          {followingUsers.length !== 0 && (
+            <>
+              <Typography
+                variant="body1"
+                sx={{
+                  marginTop: 3,
+                  paddingLeft: 2,
+                  fontWeight: 500,
+                }}
+              >
+                Following
+              </Typography>
+              <ContactList users={followingUsers} />
+            </>
+          )}
 
           <Typography
             variant="body1"

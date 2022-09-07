@@ -11,8 +11,9 @@ import { receiveChat } from '../services/socket';
 import { useSelector } from 'react-redux';
 import { socketSelector } from '../redux/features/chatSlice';
 import ContactList from '../components/ContactList';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import SkeletonList from '../components/skeleton/SkeletonList';
+import SpeakerNotesOffOutlinedIcon from '@mui/icons-material/SpeakerNotesOffOutlined';
 
 export default function Message() {
   const { id: userId } = getLocalUser();
@@ -80,7 +81,14 @@ export default function Message() {
         <SkeletonList amount={10} />
       ) : (
         <>
-          <MessageList chatData={chats} />
+          {chats.length === 0 ? (
+            <Box sx={{ textAlign: 'center', marginTop: 3, marginBottom: 2 }}>
+              <SpeakerNotesOffOutlinedIcon sx={{ width: 50, height: 50 }} />
+              <Typography variant="h6">No message yet</Typography>
+            </Box>
+          ) : (
+            <MessageList chatData={chats} />
+          )}
 
           <Typography
             variant="body1"

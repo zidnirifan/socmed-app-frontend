@@ -29,7 +29,7 @@ export default function Notifications() {
       ) : notifications.length === 0 ? (
         <Box sx={{ textAlign: 'center', marginTop: 3, marginBottom: 2 }}>
           <NotificationsOffOutlinedIcon sx={{ width: 70, height: 70 }} />
-          <Typography variant="h5" sx={{ fontWeight: 500 }}>
+          <Typography variant="h6" sx={{ fontWeight: 500 }}>
             No notifications yet
           </Typography>
         </Box>

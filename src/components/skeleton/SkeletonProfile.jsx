@@ -48,7 +48,7 @@ export default function SkeletonProfile() {
         />
       </Box>
       <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-      <SkeletonExplore amount={9} />
+      <SkeletonExplore amount={6} />
     </Paper>
   );
 }

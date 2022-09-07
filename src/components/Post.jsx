@@ -125,7 +125,7 @@ function Post({ postData }) {
         {media.map((step, index) => (
           <div key={step}>
             {Math.abs(activeStep - index) <= 2 ? (
-              <CardMedia component="img" image={step} />
+              <CardMedia component="img" image={step} loading="lazy" />
             ) : null}
           </div>
         ))}

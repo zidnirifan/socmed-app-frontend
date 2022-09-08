@@ -1,4 +1,4 @@
-import { Tab, Tabs } from '@mui/material';
+import { Tab, Tabs, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import Navbar from '../components/NavBar';
 import { useParams } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { getFollowers, getFollowing } from '../services/api';
 import UserList from '../components/UserList';
 import FollowerBar from '../components/FollowerBar';
 import SkeletonList from '../components/skeleton/SkeletonList';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 
 function Followers({ type }) {
   const { userId } = useParams();
@@ -42,7 +43,16 @@ function Followers({ type }) {
           <Tab value="followers" label="Followers" />
           <Tab value="following" label="Following" />
         </Tabs>
-        {loading ? <SkeletonList amount={10} /> : <UserList users={users} />}
+        {loading ? (
+          <SkeletonList amount={10} />
+        ) : users.length === 0 ? (
+          <Box sx={{ textAlign: 'center', marginTop: 3, marginBottom: 2 }}>
+            <PeopleAltOutlinedIcon sx={{ width: 50, height: 50 }} />
+            <Typography variant="h6">No {value} yet</Typography>
+          </Box>
+        ) : (
+          <UserList users={users} />
+        )}
       </Box>
     </>
   );

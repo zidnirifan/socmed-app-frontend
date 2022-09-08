@@ -1,106 +1,45 @@
-import { Button, Container, Link, Typography } from '@mui/material';
+import {
+  Backdrop,
+  Button,
+  CircularProgress,
+  Container,
+  Link,
+  Typography,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { loginUser, registerUser } from '../services/api';
+import { userSignupSchema } from '../schema/user';
+import { loginUser, registerUser as registerUserApi } from '../services/api';
+import { joiResolver } from '@hookform/resolvers/joi';
 
 export default function Signup() {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({
-    username: '',
-    fullName: '',
-    password: '',
-  });
-  const [usernameCheck, setUsernameCheck] = useState({
-    invalid: false,
-    message: '',
-  });
-  const [fullNameCheck, setFullNameCheck] = useState({
-    invalid: false,
-    message: '',
-  });
-  const [passwordCheck, setPasswordCheck] = useState({
-    invalid: false,
-    message: '',
-  });
-  const [confirmPassword, setConfirmPassword] = useState({
-    invalid: false,
-    message: '',
+  const [loading, setLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    getValues,
+  } = useForm({
+    resolver: joiResolver(userSignupSchema),
+    mode: 'onBlur',
   });
 
-  const validateUsername = (e) => {
-    const { value } = e.target;
-    if (value.length < 5) {
-      setUsernameCheck({
-        invalid: true,
-        message: 'username must be at least 5 character',
-      });
-    } else if (!value.match(/^[\w]+$/)) {
-      setUsernameCheck({
-        invalid: true,
-        message: 'username contain restricted character',
-      });
-    } else {
-      setUsernameCheck({ invalid: false, message: '' });
-    }
-  };
-  const validateFullName = (e) => {
-    const { value } = e.target;
-    if (!value.length) {
-      setFullNameCheck({
-        invalid: true,
-        message: 'full name cannot be empty',
-      });
-    } else {
-      setFullNameCheck({ invalid: false, message: '' });
-    }
-  };
-  const validatePassword = (e) => {
-    const { value } = e.target;
-    if (value.length < 8) {
-      setPasswordCheck({
-        invalid: true,
-        message: 'password must be at least 8 character',
-      });
-    } else {
-      setPasswordCheck({ invalid: false, message: '' });
-    }
-  };
-  const validateConfirmPassword = (e) => {
-    const { value } = e.target;
-    if (value !== user.password) {
-      setConfirmPassword({
-        invalid: true,
-        message: 'password not match',
-      });
-    } else {
-      setConfirmPassword({ invalid: false, message: '' });
-    }
-  };
-
-  const handleChangeInput = (e) => {
-    const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
-  };
-
-  const register = async () => {
-    if (!user.username || !user.fullName || !user.password) return;
-    if (
-      fullNameCheck.invalid ||
-      usernameCheck.invalid ||
-      passwordCheck.invalid ||
-      confirmPassword.invalid
-    )
-      return;
-
-    const response = await registerUser(user);
+  const registerUser = async (data) => {
+    setLoading(true);
+    const response = await registerUserApi(data);
+    setLoading(false);
 
     if (response.status === 'success') {
       await loginUser({
-        username: user.username,
-        password: user.password,
+        username: getValues('username'),
+        password: getValues('password'),
       });
       navigate('/signup-photo');
       window.location.reload();
@@ -109,10 +48,7 @@ export default function Signup() {
       response.status === 'fail' &&
       response.message === 'username already exist'
     ) {
-      return setUsernameCheck({
-        invalid: true,
-        message: 'username already exist',
-      });
+      setError('username', { type: 'custom', message: response.message });
     }
   };
 
@@ -129,8 +65,7 @@ export default function Signup() {
           marginLeft: 'auto',
           marginRight: 'auto',
         }}
-        noValidate
-        autoComplete="off"
+        onSubmit={handleSubmit(registerUser)}
       >
         <Typography
           variant="h3"
@@ -152,62 +87,49 @@ export default function Signup() {
           }}
         />
         <TextField
-          error={fullNameCheck.invalid}
-          helperText={fullNameCheck.message}
-          id="fullName"
-          name="fullName"
+          error={!!errors.fullName}
+          helperText={errors.fullName?.message}
           label="Full name"
           variant="outlined"
           fullWidth
           sx={{ marginBottom: 2 }}
-          value={user.fullName}
-          onChange={handleChangeInput}
-          onBlur={validateFullName}
+          {...register('fullName')}
         />
         <TextField
-          error={usernameCheck.invalid}
-          helperText={usernameCheck.message}
-          id="username"
-          name="username"
+          error={!!errors.username}
+          helperText={errors.username?.message}
           label="Username"
           variant="outlined"
           fullWidth
           sx={{ marginBottom: 2 }}
-          value={user.username}
-          onChange={handleChangeInput}
-          onBlur={validateUsername}
+          {...register('username')}
         />
         <TextField
-          error={passwordCheck.invalid}
-          helperText={passwordCheck.message}
-          id="password"
-          name="password"
+          error={!!errors.password}
+          helperText={errors.password?.message}
           label="Password"
           variant="outlined"
           type="password"
           fullWidth
           sx={{ marginBottom: 2 }}
-          value={user.password}
-          onChange={handleChangeInput}
-          onBlur={validatePassword}
+          {...register('password')}
         />
         <TextField
-          error={confirmPassword.invalid}
-          helperText={confirmPassword.message}
-          id="confirmPassword"
-          name="confirmPassword"
+          error={!!errors.confirmPassword}
+          helperText={errors.confirmPassword?.message}
           label="Confirm password"
           variant="outlined"
           type="password"
           fullWidth
           sx={{ marginBottom: 2 }}
-          onBlur={validateConfirmPassword}
+          {...register('confirmPassword')}
         />
         <Button
           fullWidth
+          type="submit"
           variant="contained"
           color="primary"
-          onClick={register}
+          disabled={loading}
         >
           Sign up
         </Button>
@@ -221,6 +143,13 @@ export default function Signup() {
             Log in
           </Link>
         </Typography>
+        {/* loading */}
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Box>
     </Container>
   );

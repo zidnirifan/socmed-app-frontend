@@ -6,6 +6,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import UserSearchList from './UserSearchList';
 import { searchUsers } from '../services/api';
+import { Box } from '@mui/material';
+import SkeletonList from './skeleton/SkeletonList';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -40,6 +42,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchBar() {
+  const [loading, setLoading] = useState(true);
   const [displayResult, setDisplayResult] = useState('none');
   const [text, setText] = useState('');
 
@@ -48,7 +51,9 @@ export default function SearchBar() {
   const search = async (e) => {
     setText(e.target.value);
     if (e.target.value.length >= 1) {
+      setLoading(true);
       const response = await searchUsers(text);
+      setLoading(false);
       setUsers(response.data.users);
     }
   };
@@ -71,7 +76,20 @@ export default function SearchBar() {
           {text.length === 0 ? (
             <></>
           ) : (
-            <UserSearchList users={users} display={displayResult} />
+            <Box
+              sx={{
+                position: 'absolute',
+                width: '100%',
+                background: 'white',
+                display: displayResult,
+              }}
+            >
+              {loading ? (
+                <SkeletonList amount={5} />
+              ) : (
+                <UserSearchList users={users} display={displayResult} />
+              )}
+            </Box>
           )}
         </Search>
       </Toolbar>

@@ -2,6 +2,7 @@ import {
   Avatar,
   Button,
   CircularProgress,
+  IconButton,
   MobileStepper,
   Stack,
   styled,
@@ -20,6 +21,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { getLocalUser } from '../services/token';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const UserBox = styled(Box)({
   display: 'flex',
@@ -47,11 +49,23 @@ const AddPost = () => {
   };
 
   const handleMediaInput = (e) => {
-    setMedia(e.target.files);
+    const temp = media;
+    for (const i of e.target.files) {
+      temp.push(i);
+    }
+    setMedia(temp);
+
     setMediaCheck({
       invalid: false,
       message: '',
     });
+  };
+
+  const handleDeleteMedia = (index) => {
+    const temp = [...media];
+    temp.splice(index, 1);
+    setMedia(temp);
+    if (temp.length !== 0) setActiveStep(temp.length - 1);
   };
 
   const addPost = async () => {
@@ -90,9 +104,9 @@ const AddPost = () => {
       <AddPostBar />
       <Box
         display={loading ? 'block' : 'none'}
-        sx={{ textAlign: 'center', mt: 15 }}
+        sx={{ textAlign: 'center', mt: 10 }}
       >
-        <CircularProgress size={70} />
+        <CircularProgress size={50} />
       </Box>
       <Box
         bgcolor={'background.default'}
@@ -140,16 +154,28 @@ const AddPost = () => {
             enableMouseEvents
           >
             {Array.from(media).map((step, index) => (
-              <div key={URL.createObjectURL(step)}>
-                {Math.abs(activeStep - index) <= 2 ? (
-                  <img
-                    src={URL.createObjectURL(step)}
-                    alt=""
-                    style={{ width: '100%' }}
-                    onLoad={(e) => URL.revokeObjectURL(e.target.src)}
-                  />
-                ) : null}
-              </div>
+              <Box sx={{ position: 'relative' }} key={index}>
+                <img
+                  src={URL.createObjectURL(step)}
+                  alt=""
+                  style={{
+                    width: '100%',
+                  }}
+                />
+                <IconButton
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    background: 'white',
+                    borderTopRightRadius: 0,
+                    padding: 0.5,
+                  }}
+                  onClick={() => handleDeleteMedia(index)}
+                >
+                  <HighlightOffIcon color="error" fontSize="large" />
+                </IconButton>
+              </Box>
             ))}
           </SwipeableViews>
           {media.length > 1 && (

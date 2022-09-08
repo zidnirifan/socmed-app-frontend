@@ -39,6 +39,8 @@ function Home() {
 
   useEffect(() => {
     getHomeData();
+    // to scroll to top when change menu
+    window.scrollTo(0, 0);
   }, [getHomeData]);
 
   return (

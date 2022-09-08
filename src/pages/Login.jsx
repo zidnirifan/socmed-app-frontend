@@ -1,77 +1,47 @@
-import { Button, Container, Link, Typography } from '@mui/material';
+import {
+  Button,
+  Container,
+  Link,
+  Typography,
+  CircularProgress,
+  Backdrop,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../services/api';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { userLoginSchema } from '../schema/user';
 
 export default function Login() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-  const [user, setUser] = useState({
-    username: '',
-    password: '',
-  });
-  const [usernameCheck, setUsernameCheck] = useState({
-    invalid: false,
-    message: '',
-  });
-  const [passwordCheck, setPasswordCheck] = useState({
-    invalid: false,
-    message: '',
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm({
+    resolver: joiResolver(userLoginSchema),
+    mode: 'onBlur',
   });
 
-  const validateUsername = (e) => {
-    const { value } = e.target;
-    if (value.length < 1) {
-      setUsernameCheck({
-        invalid: true,
-        message: 'username cannot be empty',
-      });
-    } else {
-      setUsernameCheck({ invalid: false, message: '' });
-    }
-  };
-
-  const validatePassword = (e) => {
-    const { value } = e.target;
-    if (value.length < 1) {
-      setPasswordCheck({
-        invalid: true,
-        message: 'password cannot be empty',
-      });
-    } else {
-      setPasswordCheck({ invalid: false, message: '' });
-    }
-  };
-
-  const handleChangeInput = (e) => {
-    const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
-  };
-
-  const login = async () => {
-    if (!user.username || !user.password) return;
-    if (usernameCheck.invalid || passwordCheck.invalid) return;
-    const { status, message } = await loginUser(user);
-
+  const login = async (data) => {
+    setLoading(true);
+    const { status, message } = await loginUser(data);
+    setLoading(false);
     if (status === 'success') {
       navigate('/');
       window.location.reload();
     }
-
     if (status === 'fail' && message === 'username not found') {
-      return setUsernameCheck({
-        invalid: true,
-        message,
-      });
+      return setError('username', { type: 'custom', message: message });
     }
-
     if (status === 'fail' && message === 'wrong password') {
-      return setPasswordCheck({
-        invalid: true,
-        message,
-      });
+      setError('password', { type: 'custom', message: message });
     }
   };
 
@@ -88,8 +58,7 @@ export default function Login() {
           marginLeft: 'auto',
           marginRight: 'auto',
         }}
-        noValidate
-        autoComplete="off"
+        onSubmit={handleSubmit(login)}
       >
         <Typography
           variant="h3"
@@ -108,29 +77,25 @@ export default function Login() {
           }}
         />
         <TextField
-          error={usernameCheck.invalid}
-          helperText={usernameCheck.message}
+          error={!!errors.username}
+          helperText={errors.username?.message}
           id="username"
           name="username"
           label="Username"
           variant="outlined"
           fullWidth
           sx={{ marginBottom: 2 }}
-          onChange={handleChangeInput}
-          onBlur={validateUsername}
+          {...register('username')}
         />
         <TextField
-          error={passwordCheck.invalid}
-          helperText={passwordCheck.message}
-          id="password"
-          name="password"
+          error={!!errors.password}
+          helperText={errors.password?.message}
           label="Password"
           variant="outlined"
           type="password"
           fullWidth
           sx={{ marginBottom: 1 }}
-          onChange={handleChangeInput}
-          onBlur={validatePassword}
+          {...register('password')}
         />
         <Link
           variant="body1"
@@ -140,7 +105,13 @@ export default function Login() {
         >
           Forgot password?
         </Link>
-        <Button fullWidth variant="contained" color="primary" onClick={login}>
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          type="submit"
+          disabled={loading}
+        >
           Log In
         </Button>
         <Typography variant="body1" sx={{ marginTop: 1.3 }}>
@@ -153,6 +124,13 @@ export default function Login() {
             Sign up
           </Link>
         </Typography>
+        {/* loading */}
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Box>
     </Container>
   );

@@ -33,10 +33,8 @@ export default function Signup() {
 
   const registerUser = async (data) => {
     setLoading(true);
-    console.log(data);
     const response = await registerUserApi(data);
     setLoading(false);
-    console.log(response);
 
     if (response.status === 'success') {
       await loginUser({

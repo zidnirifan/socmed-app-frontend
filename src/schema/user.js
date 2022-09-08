@@ -12,6 +12,11 @@ const userSignupSchema = Joi.object({
     .valid(Joi.ref('password'))
     .required()
     .messages({ 'any.only': 'password not match' }),
-}).unknown(true);
+});
 
-export { userSignupSchema };
+const userLoginSchema = Joi.object({
+  username: Joi.string().required(),
+  password: Joi.string().required(),
+});
+
+export { userSignupSchema, userLoginSchema };

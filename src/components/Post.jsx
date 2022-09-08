@@ -104,7 +104,7 @@ function Post({ postData }) {
   };
 
   return (
-    <Card sx={{ maxWidth: 600, boxShadow: 'none' }}>
+    <Card sx={{ boxShadow: 'none' }}>
       <CardHeader
         avatar={<Avatar src={user.profilePhoto} />}
         action={

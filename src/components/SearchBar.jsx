@@ -69,7 +69,7 @@ export default function SearchBar() {
             placeholder="Search…"
             inputProps={{ 'aria-label': 'search' }}
             onFocus={() => setDisplayResult('block')}
-            onBlur={(e) => setTimeout(() => setDisplayResult('none'), 1)}
+            onBlur={(e) => setTimeout(() => setDisplayResult('none'), 100)}
             value={text}
             onChange={search}
           />

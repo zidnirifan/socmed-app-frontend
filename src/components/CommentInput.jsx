@@ -92,7 +92,10 @@ function CommentInput() {
           position: 'fixed',
           bottom: 48,
           backgroundColor: grey[300],
+          left: '50%',
+          transform: 'translateX(-50%)',
           width: '100%',
+          maxWidth: '576px',
           display: replyTo.replyTo ? 'flex' : 'none',
           padding: 1.5,
         }}
@@ -125,6 +128,9 @@ function CommentInput() {
         sx={{
           top: 'auto',
           bottom: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          maxWidth: '600px',
         }}
       >
         <Toolbar

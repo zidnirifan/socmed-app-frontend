@@ -3,6 +3,11 @@ body {
   box-sizing: border-box;
 }
 
+#root {
+  max-width: 600px;
+  margin: auto;
+}
+
 .MuiMobileStepper-dot {
   width: 6px !important;
   height: 6px !important;

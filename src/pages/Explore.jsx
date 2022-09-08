@@ -27,6 +27,8 @@ export default function Explore() {
 
   useEffect(() => {
     getExplorePosts();
+    // to scroll to top when change menu
+    window.scrollTo(0, 0);
   }, [getExplorePosts]);
 
   return (

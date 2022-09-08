@@ -233,6 +233,7 @@ function Post({ postData }) {
               placeholder="Add a comment..."
               inputProps={{ 'aria-label': 'search' }}
               size="small"
+              multiline
               onChange={writeComment}
             />
           </CommentInput>

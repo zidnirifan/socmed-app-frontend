@@ -446,3 +446,21 @@ export const getUserById = async (id = '') => {
     return error.response.data;
   }
 };
+
+export const editUserBio = async (bio) => {
+  try {
+    const ENDPOINT = 'users/bio';
+
+    const { data } = await axiosAuth({
+      method: 'put',
+      url: `${URL_API}/${ENDPOINT}`,
+      data: {
+        bio,
+      },
+    });
+
+    return data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

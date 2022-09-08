@@ -21,7 +21,6 @@ export default function ChangeProfilePhoto() {
       <Box
         component="form"
         sx={{
-          marginTop: 5,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',

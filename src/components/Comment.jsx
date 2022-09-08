@@ -97,7 +97,12 @@ export default function Comment({ comment, index, parentComment }) {
           >
             @{comment.replyTo?.user.username}
           </Typography>
-          <Typography variant="body2" component={'span'} display="inline">
+          <Typography
+            variant="body2"
+            component={'span'}
+            display="inline"
+            sx={{ whiteSpace: 'pre-line' }}
+          >
             {' '}
             {comment.content}
           </Typography>

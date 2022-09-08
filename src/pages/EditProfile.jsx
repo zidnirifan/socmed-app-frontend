@@ -6,7 +6,7 @@ export default function EditProfile() {
   return (
     <>
       <EditProfileBar />
-      <ChangeProfilePhoto />
+      <ChangeProfilePhoto sx={{ mt: 5 }} />
       <EditProfileForm />
     </>
   );

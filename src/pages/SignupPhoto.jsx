@@ -1,30 +1,40 @@
-import { Avatar, Button, Container, Typography } from '@mui/material';
-import InputBase from '@mui/material/InputBase';
+import { Button, Container, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
-import { changeProfilePhoto } from '../services/api';
-import { useState } from 'react';
+import { editUserBio } from '../services/api';
+import { useForm } from 'react-hook-form';
+import ChangeProfilePhoto from '../components/ChangeProfilePhoto';
 
 export default function SignupPhoto() {
   const navigate = useNavigate();
-  const [photoUrl, setPhotoUrl] = useState('');
 
-  const uploadPhoto = async (e) => {
-    const response = await changeProfilePhoto(e.target.files[0]);
-    setPhotoUrl(response.data.profilePhoto);
-  };
+  const { register, handleSubmit } = useForm({
+    mode: 'onBlur',
+  });
 
-  const redirectHome = () => {
+  const redirectHome = async (data) => {
+    await editUserBio(data.bio);
     navigate('/');
     window.location.reload();
   };
 
   return (
-    <Container>
+    <Container
+      sx={{
+        marginTop: 9,
+      }}
+    >
+      <Typography
+        variant="h3"
+        textAlign="center"
+        sx={{ fontFamily: 'Satisfy', marginBottom: 3 }}
+      >
+        Insapgan
+      </Typography>
+      <ChangeProfilePhoto />
       <Box
         component="form"
         sx={{
-          marginTop: 17,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -34,37 +44,19 @@ export default function SignupPhoto() {
         }}
         noValidate
         autoComplete="off"
+        onSubmit={handleSubmit(redirectHome)}
       >
-        <Typography
-          variant="h3"
-          textAlign="center"
-          sx={{ fontFamily: 'Satisfy', marginBottom: 5 }}
-        >
-          Insapgan
-        </Typography>
-        <label htmlFor="photo">
-          <Avatar
-            sx={{ width: 120, height: 120, marginBottom: 1 }}
-            src={photoUrl}
-          />
-        </label>
-        <InputBase
-          id="photo"
-          type="file"
-          accept="image/png, image/jpeg, image/webp"
-          sx={{ visibility: 'hidden', width: 0, height: 0 }}
-          onChange={uploadPhoto}
-        />
-        <Typography variant="body1" sx={{ marginBottom: 2 }}>
-          Change profile photo
-        </Typography>
-        <Button
+        <TextField
+          label="Bio"
+          variant="outlined"
           fullWidth
-          variant="contained"
-          color="primary"
-          onClick={redirectHome}
-        >
-          Skip
+          multiline
+          rows={3}
+          sx={{ marginBottom: 2 }}
+          {...register('bio')}
+        />
+        <Button fullWidth variant="contained" color="primary" type="submit">
+          Done
         </Button>
       </Box>
     </Container>

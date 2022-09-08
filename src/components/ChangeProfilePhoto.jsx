@@ -5,7 +5,7 @@ import { changeProfilePhoto } from '../services/api';
 import { useState } from 'react';
 import { getLocalUser, setLocalUser } from '../services/token';
 
-export default function ChangeProfilePhoto() {
+export default function ChangeProfilePhoto(props) {
   const user = getLocalUser();
 
   const [photoUrl, setPhotoUrl] = useState(user.profilePhoto);
@@ -17,11 +17,10 @@ export default function ChangeProfilePhoto() {
   };
 
   return (
-    <Container>
+    <Container {...props}>
       <Box
         component="form"
         sx={{
-          marginTop: 5,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',

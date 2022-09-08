@@ -33,6 +33,9 @@ function Navbar() {
         sx={{
           top: 'auto',
           bottom: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          maxWidth: '600px',
         }}
       >
         <Toolbar

@@ -18,6 +18,7 @@ export default function ChatItem({ side, chat, time }) {
             padding: 1,
             borderRadius: 3,
             color: isLeft ? 'black' : 'white',
+            whiteSpace: 'pre-line',
           }}
         >
           {chat}

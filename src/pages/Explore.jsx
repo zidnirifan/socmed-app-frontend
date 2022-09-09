@@ -11,6 +11,7 @@ export default function Explore() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
+  const width = document.getElementById('root').offsetWidth;
 
   const fetchMoreData = async () => {
     const posts = await getExplorePostsMedia();
@@ -44,7 +45,12 @@ export default function Explore() {
           hasMore={true}
           loader={<SkeletonExplore amount={6} />}
         >
-          <ImageList cols={3} rowHeight={140} gap={1} sx={{ marginTop: 0 }}>
+          <ImageList
+            cols={3}
+            rowHeight={width / 3}
+            gap={1}
+            sx={{ marginTop: 0, overflow: 'hidden' }}
+          >
             {items.map((item, i) => (
               <ImageListItem
                 key={i}

@@ -186,6 +186,7 @@ function Post({ postData }) {
         <Typography
           variant="body2"
           display={displayMore}
+          sx={{ whiteSpace: 'pre-line' }}
           onClick={caption?.length > 55 ? handleExpandClick : () => {}}
         >
           {caption?.slice(0, 55)}

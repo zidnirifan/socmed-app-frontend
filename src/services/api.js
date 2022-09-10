@@ -212,10 +212,17 @@ export const addPost = async ({ media, caption }) => {
   }
 };
 
-export const getExplorePostsMedia = async () => {
+export const getExplorePostsMedia = async (exceptPosts) => {
   try {
     const ENDPOINT = 'posts/explore/media';
-    const { data } = await axiosAuth.get(`${URL_API}/${ENDPOINT}`);
+
+    const { data } = await axiosAuth({
+      method: 'post',
+      url: `${URL_API}/${ENDPOINT}`,
+      data: {
+        exceptPosts,
+      },
+    });
 
     return data;
   } catch (error) {

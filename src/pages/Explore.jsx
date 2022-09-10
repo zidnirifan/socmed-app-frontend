@@ -1,4 +1,4 @@
-import { ImageList, ImageListItem } from '@mui/material';
+import { ImageList, ImageListItem, Typography } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { getExplorePostsMedia } from '../services/api';
@@ -11,17 +11,24 @@ export default function Explore() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
+  const [exceptPosts, setExceptPosts] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
   const width = document.getElementById('root').offsetWidth;
 
   const fetchMoreData = async () => {
-    const posts = await getExplorePostsMedia();
+    const posts = await getExplorePostsMedia(exceptPosts);
 
+    if (posts.data.posts.length === 0) setHasMore(false);
+    const tempPostsId = posts.data.posts.map((p) => p.id);
+    setExceptPosts(exceptPosts.concat(tempPostsId));
     setItems(items.concat(posts.data.posts));
   };
 
   const getExplorePosts = useCallback(async () => {
     const posts = await getExplorePostsMedia();
 
+    const tempPostsId = posts.data.posts.map((p) => p.id);
+    setExceptPosts(tempPostsId);
     setLoading(false);
     setItems(posts.data.posts);
   }, []);
@@ -42,7 +49,12 @@ export default function Explore() {
         <InfiniteScroll
           dataLength={items.length}
           next={fetchMoreData}
-          hasMore={true}
+          hasMore={hasMore}
+          endMessage={
+            <Typography variant="h4" sx={{ textAlign: 'center', mb: 5 }}>
+              No posts anymore
+            </Typography>
+          }
           loader={<SkeletonExplore amount={6} />}
         >
           <ImageList

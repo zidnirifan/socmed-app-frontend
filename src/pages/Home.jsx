@@ -26,6 +26,8 @@ function Home() {
     const following = await getFollowingPosts();
     const users = await getSuggestedUsers();
 
+    const tempPostsId = following.data.posts.map((p) => p.id);
+    setExceptPosts(tempPostsId);
     setLoading(false);
     setFollowingPosts(following.data.posts);
     setSuggestedUsers(users.data.users);
@@ -111,13 +113,7 @@ function Home() {
                 No posts anymore
               </Typography>
             }
-            loader={
-              <>
-                <SkeletonPost />
-                <SkeletonPost />
-                <SkeletonPost />
-              </>
-            }
+            loader={<SkeletonPost />}
           >
             {suggestedPosts.map((post, i) => (
               <Post postData={post} key={i} />

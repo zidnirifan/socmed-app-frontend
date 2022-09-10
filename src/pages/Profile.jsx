@@ -190,6 +190,7 @@ function Profile() {
           )}
         </>
       )}
+      <Box height="50px" />
     </>
   );
 }

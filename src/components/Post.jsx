@@ -209,7 +209,11 @@ function Post({ postData }) {
           collapsedSize="10px"
           display="inline"
         >
-          <Typography variant="body2" display="inline">
+          <Typography
+            variant="body2"
+            display="inline"
+            sx={{ whiteSpace: 'pre-line' }}
+          >
             {caption}
           </Typography>
         </Collapse>

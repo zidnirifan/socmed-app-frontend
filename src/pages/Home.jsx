@@ -1,4 +1,4 @@
-import { CircularProgress, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useCallback, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -19,21 +19,26 @@ function Home() {
   const [followingPosts, setFollowingPosts] = useState([]);
   const [suggestedPosts, setSuggestedPosts] = useState([]);
   const [suggestedUsers, setSuggestedUsers] = useState([]);
+  const [exceptPosts, setExceptPosts] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
 
   const getHomeData = useCallback(async () => {
     const following = await getFollowingPosts();
     const users = await getSuggestedUsers();
-    const suggested = await getSuggestedPosts();
 
+    const tempPostsId = following.data.posts.map((p) => p.id);
+    setExceptPosts(tempPostsId);
     setLoading(false);
     setFollowingPosts(following.data.posts);
-    setSuggestedPosts(suggested.data.posts);
     setSuggestedUsers(users.data.users);
   }, []);
 
   const fetchMoreData = async () => {
-    const posts = await getSuggestedPosts();
+    const posts = await getSuggestedPosts(exceptPosts);
+    if (posts.data.posts.length === 0) setHasMore(false);
 
+    const tempPostsId = posts.data.posts.map((p) => p.id);
+    setExceptPosts(exceptPosts.concat(tempPostsId));
     setSuggestedPosts(suggestedPosts.concat(posts.data.posts));
   };
 
@@ -102,12 +107,13 @@ function Home() {
           <InfiniteScroll
             dataLength={suggestedPosts.length}
             next={fetchMoreData}
-            hasMore={true}
-            loader={
-              <Box sx={{ textAlign: 'center', mb: 10, mt: 3 }}>
-                <CircularProgress size={30} />
-              </Box>
+            hasMore={hasMore}
+            endMessage={
+              <Typography variant="h4" sx={{ textAlign: 'center', mb: 5 }}>
+                No posts anymore
+              </Typography>
             }
+            loader={<SkeletonPost />}
           >
             {suggestedPosts.map((post, i) => (
               <Post postData={post} key={i} />

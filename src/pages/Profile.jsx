@@ -145,7 +145,11 @@ function Profile() {
           </Paper>
           <Container>
             <Typography variant="subtitle2">{user.fullName}</Typography>
-            <Typography variant="subtitle2" color={grey[500]}>
+            <Typography
+              variant="subtitle2"
+              color={grey[500]}
+              sx={{ whiteSpace: 'pre-line' }}
+            >
               {user.bio}
             </Typography>
             <Box sx={{ marginTop: 2, padding: '0 10%' }}>

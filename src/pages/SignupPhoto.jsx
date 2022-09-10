@@ -51,7 +51,7 @@ export default function SignupPhoto() {
           variant="outlined"
           fullWidth
           multiline
-          rows={3}
+          minRows={3}
           sx={{ marginBottom: 2 }}
           {...register('bio')}
         />

@@ -128,7 +128,7 @@ const AddPost = () => {
           id="caption"
           name="caption"
           multiline
-          rows={3}
+          minRows={3}
           placeholder="What's on your mind?"
           variant="standard"
           onChange={handleCaptionInput}

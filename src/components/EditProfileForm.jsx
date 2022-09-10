@@ -109,7 +109,7 @@ export default function EditProfileForm() {
           multiline
           variant="outlined"
           fullWidth
-          rows={2}
+          minRows={2}
           sx={{ marginBottom: 2 }}
           value={user.bio || ''}
           onChange={handleChangeInput}

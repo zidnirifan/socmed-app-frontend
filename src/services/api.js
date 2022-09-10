@@ -114,10 +114,17 @@ export const getFollowingPosts = async () => {
   }
 };
 
-export const getSuggestedPosts = async () => {
+export const getSuggestedPosts = async (exceptPosts) => {
   try {
     const ENDPOINT = 'posts/explore';
-    const { data } = await axiosAuth.get(`${URL_API}/${ENDPOINT}`);
+
+    const { data } = await axiosAuth({
+      method: 'post',
+      url: `${URL_API}/${ENDPOINT}`,
+      data: {
+        exceptPosts,
+      },
+    });
 
     return data;
   } catch (error) {

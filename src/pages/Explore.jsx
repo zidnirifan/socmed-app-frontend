@@ -51,7 +51,7 @@ export default function Explore() {
           next={fetchMoreData}
           hasMore={hasMore}
           endMessage={
-            <Typography variant="h4" sx={{ textAlign: 'center', mb: 5 }}>
+            <Typography variant="h4" sx={{ textAlign: 'center', mb: 9 }}>
               No posts anymore
             </Typography>
           }

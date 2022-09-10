@@ -164,6 +164,7 @@ function OwnProfile() {
           )}
         </>
       )}
+      <Box height="50px" />
     </>
   );
 }

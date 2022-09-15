@@ -37,7 +37,7 @@ Compile code:
 $ npm run build
 ```
 
-Start development server with:
+Start development server:
 
 ```bash
 $ npm run start

@@ -4,6 +4,11 @@ Link: https://insapgan.zidnirifan.my.id
 
 Source code backend: https://github.com/zidnirifan/socmed-app-backend
 
+## Screen Shots
+
+<img src="https://firebasestorage.googleapis.com/v0/b/socmed-backend.appspot.com/o/screen-shots%2Fhome.png?alt=media&token=8fce0ebe-bde6-4a68-a5bd-62b3cf3a89ca" alt="Home" style="height: 500px; display: inline;"/>
+<img src="https://firebasestorage.googleapis.com/v0/b/socmed-backend.appspot.com/o/screen-shots%2Fexplore-posts.png?alt=media&token=8fce0ebe-bde6-4a68-a5bd-62b3cf3a89ca" alt="Explore posts" style="height: 500px; display: inline;"/>
+
 ## Features
 
 - Register, Login, Logout

@@ -7,10 +7,8 @@ Source code backend: https://github.com/zidnirifan/socmed-app-backend
 ## Screen Shots
 
 ![Home page](https://firebasestorage.googleapis.com/v0/b/socmed-backend.appspot.com/o/screen-shots%2Fhome%20-%20Copy.png?alt=media&token=8cb9c6f5-b015-45dc-a2d5-dd89226bc7c4 'Home page')
-<img src="https://firebasestorage.googleapis.com/v0/b/socmed-backend.appspot.com/o/screen-shots%2Fadd-post.png?alt=media&token=8fce0ebe-bde6-4a68-a5bd-62b3cf3a89ca" alt="Add post" style="height: 500px;"/>
 <img src="https://firebasestorage.googleapis.com/v0/b/socmed-backend.appspot.com/o/screen-shots%2Fsearch-user.png?alt=media&token=8fce0ebe-bde6-4a68-a5bd-62b3cf3a89ca" alt="Search Users" style="height: 500px;"/>
 <img src="https://firebasestorage.googleapis.com/v0/b/socmed-backend.appspot.com/o/screen-shots%2Fuser-profile.png?alt=media&token=8fce0ebe-bde6-4a68-a5bd-62b3cf3a89ca" alt="User profile" style="height: 500px;"/>
-<img src="https://firebasestorage.googleapis.com/v0/b/socmed-backend.appspot.com/o/screen-shots%2Fcomments.png?alt=media&token=8fce0ebe-bde6-4a68-a5bd-62b3cf3a89ca" alt="Comments" style="height: 500px;"/>
 <img src="https://firebasestorage.googleapis.com/v0/b/socmed-backend.appspot.com/o/screen-shots%2Fnotification.png?alt=media&token=8fce0ebe-bde6-4a68-a5bd-62b3cf3a89ca" alt="Notification" style="height: 500px;"/>
 <img src="https://firebasestorage.googleapis.com/v0/b/socmed-backend.appspot.com/o/screen-shots%2Fmessage.png?alt=media&token=8fce0ebe-bde6-4a68-a5bd-62b3cf3a89ca" alt="Message" style="height: 500px;"/>
 <img src="https://firebasestorage.googleapis.com/v0/b/socmed-backend.appspot.com/o/screen-shots%2Fchats.png?alt=media&token=8fce0ebe-bde6-4a68-a5bd-62b3cf3a89ca" alt="Chats" style="height: 500px;"/>

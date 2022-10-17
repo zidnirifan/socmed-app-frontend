@@ -28,7 +28,10 @@ export default function UserItem({
   return (
     <Box>
       <ListItem alignItems="center">
-        <ListItemAvatar onClick={() => navigate(`/profile/${id}`)}>
+        <ListItemAvatar
+          sx={{ cursor: 'pointer' }}
+          onClick={() => navigate(`/profile/${id}`)}
+        >
           <Avatar alt={username} src={profilePhoto} />
         </ListItemAvatar>
         <Box sx={{ width: '100%' }}>
@@ -41,7 +44,7 @@ export default function UserItem({
           >
             <Typography
               variant="subtitle1"
-              sx={{ flexGrow: 1, fontWeight: 500 }}
+              sx={{ flexGrow: 1, fontWeight: 500, cursor: 'pointer' }}
               onClick={() => navigate(`/profile/${id}`)}
             >
               {username}

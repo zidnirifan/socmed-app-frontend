@@ -66,6 +66,7 @@ export default function Explore() {
             {items.map((item, i) => (
               <ImageListItem
                 key={i}
+                sx={{ cursor: 'pointer' }}
                 onClick={() => navigate(`/post/${item.id}`)}
               >
                 <img

@@ -138,6 +138,7 @@ export default function Signup() {
           <Link
             variant="body1"
             underline="hover"
+            sx={{ cursor: 'pointer', fontWeight: 500 }}
             onClick={() => navigate('/login')}
           >
             Log in

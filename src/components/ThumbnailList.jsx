@@ -15,6 +15,7 @@ export default function ThumbnailList({ posts }) {
       {posts.map((item) => (
         <ImageListItem
           key={item.id}
+          sx={{ cursor: 'pointer' }}
           onClick={() => navigate(`/post/${item.id}`)}
         >
           <img

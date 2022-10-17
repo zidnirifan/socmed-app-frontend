@@ -32,7 +32,10 @@ export default function NotifItem({
   return (
     <Box>
       <ListItem alignItems="center">
-        <ListItemAvatar onClick={() => navigate(`/profile/${user.id}`)}>
+        <ListItemAvatar
+          sx={{ cursor: 'pointer' }}
+          onClick={() => navigate(`/profile/${user.id}`)}
+        >
           <Avatar alt={user.username} src={user.profilePhoto} />
         </ListItemAvatar>
         <Box sx={{ width: '100%' }}>
@@ -45,7 +48,7 @@ export default function NotifItem({
           >
             <Typography
               variant="body2"
-              sx={{ flexGrow: 2, fontWeight: 500 }}
+              sx={{ flexGrow: 2, fontWeight: 500, cursor: 'pointer' }}
               onClick={navigateNotif}
             >
               {user.username}{' '}

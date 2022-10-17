@@ -133,10 +133,14 @@ const AddPost = () => {
           variant="standard"
           onChange={handleCaptionInput}
         />
-        <Stack direction="row" gap={1} mt={2} mb={3}>
+        <Stack direction="row" gap={1} mt={2} mb={3} sx={{ cursor: 'pointer' }}>
           <CameraIcon color={grey[500]} fontSize="large" />
           <label htmlFor="media">
-            <Image color={grey[500]} fontSize="large" />
+            <Image
+              color={grey[500]}
+              fontSize="large"
+              sx={{ cursor: 'pointer' }}
+            />
           </label>
           <input
             id="media"

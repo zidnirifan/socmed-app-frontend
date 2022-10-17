@@ -113,7 +113,7 @@ function Post({ postData }) {
           </IconButton>
         }
         title={user.username}
-        sx={{ paddingTop: '10px', paddingBottom: '10px' }}
+        sx={{ paddingTop: '10px', paddingBottom: '10px', cursor: 'pointer' }}
         onClick={() => navigate(`/profile/${user.id}`)}
       />
       <SwipeableViews
@@ -197,6 +197,7 @@ function Post({ postData }) {
               onClick={handleExpandClick}
               aria-label="show more"
               color="text.secondary"
+              sx={{ cursor: 'pointer', fontWeight: 500 }}
             >
               ... more
             </Typography>
@@ -220,7 +221,7 @@ function Post({ postData }) {
         <Typography
           variant="body2"
           color="text.secondary"
-          sx={{ mt: 0.7 }}
+          sx={{ mt: 0.7, cursor: 'pointer' }}
           display={commentsCount ? 'block' : 'none'}
           onClick={() => navigate(`/post/${postData.id}/comments`)}
         >

@@ -14,7 +14,7 @@ export default function ContactItem({
 
   return (
     <Box>
-      <ListItem alignItems="center">
+      <ListItem alignItems="center" sx={{ cursor: 'pointer' }}>
         <ListItemAvatar onClick={() => navigate(`/profile/${id}`)}>
           <Avatar alt={username} src={profilePhoto} />
         </ListItemAvatar>

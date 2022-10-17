@@ -93,6 +93,7 @@ export default function Comment({ comment, index, parentComment }) {
             component={'span'}
             display={comment.replyTo ? 'inline' : 'none'}
             color={lightBlue[600]}
+            sx={{ cursor: 'pointer' }}
             onClick={() => navigate(`/profile/${comment.replyTo?.user.id}`)}
           >
             @{comment.replyTo?.user.username}
@@ -121,7 +122,12 @@ export default function Comment({ comment, index, parentComment }) {
         </Typography>
         <Typography
           variant="caption"
-          sx={{ marginRight: 3.5, fontWeight: 500, color: grey[600] }}
+          sx={{
+            marginRight: 3.5,
+            fontWeight: 500,
+            color: grey[600],
+            cursor: 'pointer',
+          }}
           onClick={setReply}
         >
           Reply

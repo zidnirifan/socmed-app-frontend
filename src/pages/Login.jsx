@@ -100,7 +100,12 @@ export default function Login() {
         <Link
           variant="body1"
           underline="hover"
-          sx={{ alignSelf: 'flex-end', marginBottom: 1.2 }}
+          sx={{
+            alignSelf: 'flex-end',
+            marginBottom: 1.2,
+            cursor: 'pointer',
+            fontWeight: 500,
+          }}
           onClick={() => navigate('/forget')}
         >
           Forgot password?
@@ -119,6 +124,7 @@ export default function Login() {
           <Link
             variant="body1"
             underline="hover"
+            sx={{ cursor: 'pointer', fontWeight: 500 }}
             onClick={() => navigate('/signup')}
           >
             Sign up

@@ -16,7 +16,7 @@ export default function MessageList({ chatData }) {
     <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
       {chatData.map((chat, i) => (
         <Box key={i}>
-          <ListItem alignItems="flex-start">
+          <ListItem alignItems="flex-start" sx={{ cursor: 'pointer' }}>
             <ListItemAvatar onClick={() => navigate(`/profile/${chat.id}`)}>
               <Avatar alt={chat.fullName} src={chat.profilePhoto} />
             </ListItemAvatar>

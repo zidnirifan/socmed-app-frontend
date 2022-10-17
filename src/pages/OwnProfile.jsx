@@ -83,7 +83,7 @@ function OwnProfile() {
                 <Grid
                   item
                   xs={4}
-                  sx={{ paddingTop: 3.5 }}
+                  sx={{ paddingTop: 3.5, cursor: 'pointer' }}
                   onClick={() => navigate(`/${id}/followers`)}
                 >
                   <Typography
@@ -104,7 +104,7 @@ function OwnProfile() {
                 <Grid
                   item
                   xs={4}
-                  sx={{ paddingTop: 3.5 }}
+                  sx={{ paddingTop: 3.5, cursor: 'pointer' }}
                   onClick={() => navigate(`/${id}/following`)}
                 >
                   <Typography

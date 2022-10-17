@@ -27,19 +27,20 @@ export default function SuggestedUserItem({
             height: '135px',
             display: 'inline-flex',
             mb: 1,
+            cursor: 'pointer',
           }}
           onClick={() => navigate(`/profile/${id}`)}
         />
         <Typography
           variant="body1"
           component="div"
-          sx={{ fontWeight: 600 }}
+          sx={{ fontWeight: 600, cursor: 'pointer' }}
           onClick={() => navigate(`/profile/${id}`)}
         >
           {username}
         </Typography>
         <Typography
-          sx={{ mb: 1 }}
+          sx={{ mb: 1, cursor: 'pointer' }}
           color="text.secondary"
           onClick={() => navigate(`/profile/${id}`)}
         >

@@ -33,7 +33,7 @@ export default function ChangeProfilePhoto(props) {
       >
         <label htmlFor="photo">
           <Avatar
-            sx={{ width: 120, height: 120, marginBottom: 1 }}
+            sx={{ width: 120, height: 120, marginBottom: 1, cursor: 'pointer' }}
             src={photoUrl}
           />
         </label>
@@ -44,13 +44,15 @@ export default function ChangeProfilePhoto(props) {
           sx={{ visibility: 'hidden', width: 0, height: 0 }}
           onChange={uploadPhoto}
         />
-        <Typography
-          variant="body1"
-          sx={{ marginBottom: 2, fontWeight: 500 }}
-          color="primary"
-        >
-          Change profile photo
-        </Typography>
+        <label htmlFor="photo">
+          <Typography
+            variant="body1"
+            sx={{ marginBottom: 2, fontWeight: 500, cursor: 'pointer' }}
+            color="primary"
+          >
+            Change profile photo
+          </Typography>
+        </label>
       </Box>
     </Container>
   );
